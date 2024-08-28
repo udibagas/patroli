@@ -93,4 +93,26 @@ describe("Stations Controller", () => {
 
     expect(res.statusCode).toBe(404);
   });
+
+  test("PUT /api/stations/:id (SUCCESS)", async () => {
+    const data = { code: "11", name: "Satu Edit" };
+    const res = await request(app)
+      .put(`/api/stations/${stations[0].id}`)
+      .set("Content-Type", "application/json")
+      .auth(token, { type: "bearer" })
+      .send(data);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toEqual({ id: stations[0].id, ...data });
+  });
+
+  test("DELETE /api/stations/:id (SUCCESS)", async () => {
+    const res = await request(app)
+      .delete(`/api/stations/${stations[0].id}`)
+      .set("Content-Type", "application/json")
+      .auth(token, { type: "bearer" });
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toEqual({ message: "Data telah dihapus" });
+  });
 });
