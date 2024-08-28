@@ -9,7 +9,7 @@ exports.auth = async (req, res, next) => {
     if (!authorization) throw new UnauthenticatedError();
     const [type, token] = authorization.split(" ");
 
-    if (type !== "Bearer") {
+    if (type.toLowerCase() !== "bearer") {
       throw new UnauthenticatedError("Invalid authentication type");
     }
 

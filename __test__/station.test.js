@@ -26,9 +26,12 @@ describe("Stations Controller", () => {
     const res = await request(app)
       .post("/api/stations")
       .set("Content-Type", "application/json")
+      .auth(token, { type: "bearer" })
       .send(data);
 
     expect(res.statusCode).toBe(201);
-    expect(res.body).toEqual(data);
+    expect(res.body.id).toBeDefined();
+    expect(res.body.code).toBe(data.code);
+    expect(res.body.name).toBe(data.name);
   });
 });

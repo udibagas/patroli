@@ -1,6 +1,6 @@
 const ForbiddenError = require("../errors/ForbiddenError");
 
-module.exports = (req, res, next) => {
+exports.isAdmin = (req, res, next) => {
   if (req.user.role !== "admin") {
     return next(new ForbiddenError());
   }
