@@ -2,6 +2,8 @@ const request = require("supertest");
 const app = require("../app");
 const { User, sequelize } = require("../models");
 
+let token;
+
 afterAll(async () => {
   await User.destroy({ truncate: true, cascade: true });
   await sequelize.close();
@@ -26,7 +28,17 @@ describe("Auth Controller", () => {
       .set("Content-Type", "application/json")
       .send(user);
 
+    token = res.body.token;
     expect(res.statusCode).toBe(200);
     expect(res.body.token).toBeDefined();
+  });
+
+  test("GET /api/me", async () => {
+    const res = await request(app)
+      .get("/api/me")
+      .set("Content-Type", "application/json")
+      .auth(token, { type: "bearer" });
+
+    expect(res.statusCode).toBe(200);
   });
 });

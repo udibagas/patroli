@@ -23,3 +23,7 @@ exports.login = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.me = async (req, res) => {
+  res.status(200).json(req.user);
+};
