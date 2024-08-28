@@ -10,8 +10,23 @@ module.exports = (sequelize, DataTypes) => {
 
   Station.init(
     {
-      code: DataTypes.STRING,
-      name: DataTypes.STRING,
+      code: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: { msg: "Kode sudah dipakai" },
+        validate: {
+          notEmpty: { msg: "Kode harus diisi" },
+          notNull: { msg: "Kode harus diisi" },
+        },
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: "Nama harus diisi" },
+          notNull: { msg: "Nama harus diisi" },
+        },
+      },
     },
     {
       sequelize,
