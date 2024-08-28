@@ -8,9 +8,11 @@ RUN npm install
 
 COPY . .
 
-RUN npx sequelize db:create --env production
+ENV NODE_ENV=production
 
-RUN npx sequelize db:migrate --env production
+RUN npx sequelize db:create
+
+RUN npx sequelize db:migrate
 
 EXPOSE 3000
 

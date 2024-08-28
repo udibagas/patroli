@@ -13,6 +13,6 @@ router
   .get("/", index)
   .get("/:id", show)
   .put("/:id", isAdmin, update)
-  .delete("/:id", remove);
+  .delete("/:id", isAdmin, remove);
 
 module.exports = router;

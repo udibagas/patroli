@@ -6,7 +6,10 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      // define association here
+      User.hasMany(models.Inspection, {
+        as: "inspections",
+        foreignKey: "UserId",
+      });
     }
 
     verify(password) {
@@ -21,8 +24,22 @@ module.exports = (sequelize, DataTypes) => {
 
   User.init(
     {
-      email: DataTypes.STRING,
-      password: DataTypes.STRING,
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: { msg: "Email harus diisi" },
+          notEmpty: { msg: "Email harus diisi" },
+        },
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: { msg: "Password harus diisi" },
+          notEmpty: { msg: "Password harus diisi" },
+        },
+      },
       role: DataTypes.STRING,
     },
     {
