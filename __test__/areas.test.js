@@ -63,16 +63,6 @@ describe("Areas Controller", () => {
     expect(Array.isArray(res.body)).toBe(true);
   });
 
-  test("GET /api/areas (SUCCESS)", async () => {
-    const res = await request(app)
-      .get("/api/areas")
-      .set("Content-Type", "application/json")
-      .auth(token, { type: "bearer" });
-
-    expect(res.statusCode).toBe(200);
-    expect(Array.isArray(res.body)).toBe(true);
-  });
-
   test("GET /api/areas/:id (SUCCESS)", async () => {
     const res = await request(app)
       .get(`/api/areas/${areas[0].id}`)
@@ -106,6 +96,18 @@ describe("Areas Controller", () => {
       StationId: station.id,
       name: "Satu Edit",
     });
+  });
+
+  test("PUT /api/areas/:id (ERROR)", async () => {
+    const data = { name: "" };
+    const res = await request(app)
+      .put(`/api/areas/${areas[0].id}`)
+      .set("Content-Type", "application/json")
+      .auth(token, { type: "bearer" })
+      .send(data);
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body.error).toBe("SequelizeValidationError");
   });
 
   test("DELETE /api/areas/:id (SUCCESS)", async () => {
