@@ -7,5 +7,6 @@ router.use("/stations", require("./stations"));
 router.use("/areas", require("./areas"));
 router.use("/shifts", require("./shifts"));
 router.use("/inspection-templates", require("./inspection-templates"));
+router.use("/inspections", require("./inspections"));
 
 module.exports = router;

@@ -11,6 +11,8 @@ exports.errorHandler = (err, req, res, next) => {
     for (let e of err.errors) {
       errors[e.path] = e.message;
     }
+
+    // console.log(errors);
   }
 
   res.status(status).json({ error, message, errors });

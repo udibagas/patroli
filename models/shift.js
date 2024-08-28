@@ -1,9 +1,21 @@
 "use strict";
-const { Model } = require("sequelize");
+const { Model, QueryTypes } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Shift extends Model {
-    static associate(models) {
-      // define association here
+    static async getShift() {
+      const time = new Date()
+        .toLocaleString("id-ID", { timeStyle: "short" })
+        .replace(".", ":");
+
+      const records = await sequelize.query(
+        `SELECT "name" FROM "Shifts" WHERE ? BETWEEN "start" AND "end"`,
+        {
+          replacements: [time],
+          type: QueryTypes.SELECT,
+        }
+      );
+
+      return records.length > 0 ? records[0].name : "-";
     }
   }
 
