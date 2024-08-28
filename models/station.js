@@ -4,7 +4,7 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Station extends Model {
     static associate(models) {
-      // define association here
+      Station.hasMany(models.Area);
     }
   }
 

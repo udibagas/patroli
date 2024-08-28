@@ -1,9 +1,10 @@
 const request = require("supertest");
 const app = require("../app");
-const { Station, User, sequelize } = require("../models");
+const { Area, Station, User, sequelize } = require("../models");
 
 let token;
-const stations = [];
+let station;
+const areas = [];
 
 beforeAll(async () => {
   const user = await User.create({
@@ -12,36 +13,38 @@ beforeAll(async () => {
     role: "admin",
   });
 
+  station = await Station.create({ code: "9", name: "Sembilan" });
   token = user.generateToken();
 });
 
 afterAll(async () => {
   await User.destroy({ truncate: true, cascade: true });
+  await Area.destroy({ truncate: true, cascade: true });
   await Station.destroy({ truncate: true, cascade: true });
   await sequelize.close();
 });
 
-describe("Stations Controller", () => {
-  test("POST /api/stations (SUCCESS)", async () => {
-    const data = { code: "1", name: "Satu" };
+describe("Areas Controller", () => {
+  test("POST /api/areas (SUCCESS)", async () => {
+    const data = { StationId: station.id, name: "Area Satu" };
     const res = await request(app)
-      .post("/api/stations")
+      .post("/api/areas")
       .set("Content-Type", "application/json")
       .auth(token, { type: "bearer" })
       .send(data);
 
-    stations.push(res.body);
+    areas.push(res.body);
 
     expect(res.statusCode).toBe(201);
     expect(res.body.id).toBeDefined();
-    expect(res.body.code).toBe(data.code);
+    expect(res.body.StationId).toBe(data.StationId);
     expect(res.body.name).toBe(data.name);
   });
 
-  test("POST /api/stations (ERROR)", async () => {
-    const data = { code: null, name: null };
+  test("POST /api/areas (ERROR)", async () => {
+    const data = { StationId: null, name: null };
     const res = await request(app)
-      .post("/api/stations")
+      .post("/api/areas")
       .set("Content-Type", "application/json")
       .auth(token, { type: "bearer" })
       .send(data);
@@ -50,9 +53,9 @@ describe("Stations Controller", () => {
     expect(res.body.error).toBe("SequelizeValidationError");
   });
 
-  test("GET /api/stations (SUCCESS)", async () => {
+  test("GET /api/areas (SUCCESS)", async () => {
     const res = await request(app)
-      .get("/api/stations")
+      .get("/api/areas")
       .set("Content-Type", "application/json")
       .auth(token, { type: "bearer" });
 
@@ -60,10 +63,9 @@ describe("Stations Controller", () => {
     expect(Array.isArray(res.body)).toBe(true);
   });
 
-  test("GET /api/stations (SUCCESS)", async () => {
-    const data = { code: null, name: null };
+  test("GET /api/areas (SUCCESS)", async () => {
     const res = await request(app)
-      .get("/api/stations")
+      .get("/api/areas")
       .set("Content-Type", "application/json")
       .auth(token, { type: "bearer" });
 
@@ -71,40 +73,44 @@ describe("Stations Controller", () => {
     expect(Array.isArray(res.body)).toBe(true);
   });
 
-  test("GET /api/stations/:id (SUCCESS)", async () => {
+  test("GET /api/areas/:id (SUCCESS)", async () => {
     const res = await request(app)
-      .get(`/api/stations/${stations[0].id}`)
+      .get(`/api/areas/${areas[0].id}`)
       .set("Content-Type", "application/json")
       .auth(token, { type: "bearer" });
 
     expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual(stations[0]);
+    expect(res.body).toEqual(areas[0]);
   });
 
-  test("GET /api/stations/:id (ERROR)", async () => {
+  test("GET /api/areas/:id (ERROR)", async () => {
     const res = await request(app)
-      .get(`/api/stations/999`)
+      .get(`/api/areas/999`)
       .set("Content-Type", "application/json")
       .auth(token, { type: "bearer" });
 
     expect(res.statusCode).toBe(404);
   });
 
-  test("PUT /api/stations/:id (SUCCESS)", async () => {
-    const data = { code: "11", name: "Satu Edit" };
+  test("PUT /api/areas/:id (SUCCESS)", async () => {
+    const data = { name: "Satu Edit" };
     const res = await request(app)
-      .put(`/api/stations/${stations[0].id}`)
+      .put(`/api/areas/${areas[0].id}`)
       .set("Content-Type", "application/json")
       .auth(token, { type: "bearer" })
       .send(data);
 
     expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual({ id: stations[0].id, ...data });
+    expect(res.body).toEqual({
+      id: areas[0].id,
+      StationId: station.id,
+      name: "Satu Edit",
+    });
   });
 
-  test("DELETE /api/stations/:id (SUCCESS)", async () => {
+  test("DELETE /api/areas/:id (SUCCESS)", async () => {
     const res = await request(app)
-      .delete(`/api/stations/${stations[0].id}`)
+      .delete(`/api/areas/${areas[0].id}`)
       .set("Content-Type", "application/json")
       .auth(token, { type: "bearer" });
 
