@@ -1,7 +1,6 @@
 const { ValidationError } = require("sequelize");
 
 exports.errorHandler = (err, req, res, next) => {
-  // console.log(err);
   let { name: error, statusCode: status = 500, message, errors } = err;
 
   if (err instanceof ValidationError) {
@@ -13,6 +12,10 @@ exports.errorHandler = (err, req, res, next) => {
     }
 
     // console.log(errors);
+  }
+
+  if (status == 500) {
+    console.log(err);
   }
 
   res.status(status).json({ error, message, errors });

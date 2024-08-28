@@ -1,12 +1,23 @@
-const { Inspection } = require("../models");
+const { Inspection, InspectionImage } = require("../models");
 const NotFoundError = require("../errors/NotfoundError");
 
 exports.create = async (req, res, next) => {
-  req.body.UserId = req.user.id;
+  const { id: UserId } = req.user;
+  const { images } = req.body;
 
   try {
-    const station = await Inspection.create(req.body);
-    res.status(201).json(station);
+    const inspection = await Inspection.create({ ...req.body, UserId });
+
+    if (images) {
+      await InspectionImage.bulkCreate(
+        images.map((el) => {
+          el.InspectionId = inspection.id;
+          return el;
+        })
+      );
+    }
+
+    res.status(201).json(inspection);
   } catch (error) {
     next(error);
   }
@@ -14,10 +25,10 @@ exports.create = async (req, res, next) => {
 
 exports.index = async (req, res, next) => {
   try {
-    const stations = await Inspection.findAll({
+    const inspections = await Inspection.findAll({
       order: [["updatedAt", "asc"]],
     });
-    res.status(200).json(stations);
+    res.status(200).json(inspections);
   } catch (error) {
     next(error);
   }
@@ -26,9 +37,9 @@ exports.index = async (req, res, next) => {
 exports.show = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const station = await Inspection.findByPk(id);
-    if (!station) throw new NotFoundError();
-    res.status(200).json(station);
+    const inspection = await Inspection.findByPk(id);
+    if (!inspection) throw new NotFoundError();
+    res.status(200).json(inspection);
   } catch (error) {
     next(error);
   }
@@ -37,10 +48,10 @@ exports.show = async (req, res, next) => {
 exports.update = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const station = await Inspection.findByPk(id);
-    if (!station) throw new NotFoundError();
-    await station.update(req.body);
-    res.status(200).json(station);
+    const inspection = await Inspection.findByPk(id);
+    if (!inspection) throw new NotFoundError();
+    await inspection.update(req.body);
+    res.status(200).json(inspection);
   } catch (error) {
     next(error);
   }
@@ -49,9 +60,9 @@ exports.update = async (req, res, next) => {
 exports.remove = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const station = await Inspection.findByPk(id);
-    if (!station) throw new NotFoundError();
-    await station.destroy();
+    const inspection = await Inspection.findByPk(id);
+    if (!inspection) throw new NotFoundError();
+    await inspection.destroy();
     res.status(200).json({ message: "Data telah dihapus" });
   } catch (error) {
     next(error);

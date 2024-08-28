@@ -9,8 +9,22 @@ module.exports = (sequelize, DataTypes) => {
 
   InspectionImage.init(
     {
-      name: DataTypes.STRING,
-      path: DataTypes.STRING,
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: { msg: "Nama harus diisi" },
+          notEmpty: { msg: "Nama harus diisi" },
+        },
+      },
+      path: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: { msg: "Path harus diisi" },
+          notEmpty: { msg: "Path harus diisi" },
+        },
+      },
       InspectionId: {
         type: DataTypes.INTEGER,
         allowNull: false,
