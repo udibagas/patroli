@@ -15,6 +15,7 @@ module.exports = {
     database: "patroli_test",
     host: DB_HOST || "127.0.0.1",
     dialect: "postgres",
+    logging: false,
   },
   production: {
     username: "postgres",
@@ -22,5 +23,6 @@ module.exports = {
     database: "patroli_prod",
     host: DB_HOST || "127.0.0.1",
     dialect: "postgres",
+    logging: false,
   },
 };

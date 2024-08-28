@@ -8,14 +8,25 @@ afterAll(async () => {
 });
 
 describe("Auth Controller", () => {
-  test("POST /register", async () => {
+  test("POST /api/register", async () => {
     const user = { email: "test@mail.com", password: "rahasia" };
     const res = await request(app)
-      .post("/register")
+      .post("/api/register")
       .set("Content-Type", "application/json")
       .send(user);
 
     expect(res.statusCode).toBe(201);
     expect(res.body.email).toBe(user.email);
+  });
+
+  test("POST /api/login", async () => {
+    const user = { email: "test@mail.com", password: "rahasia" };
+    const res = await request(app)
+      .post("/api/login")
+      .set("Content-Type", "application/json")
+      .send(user);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.token).toBeDefined();
   });
 });

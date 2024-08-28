@@ -9,11 +9,11 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
 
-    static verify(password) {
+    verify(password) {
       return compareSync(password, this.password);
     }
 
-    static generateToken() {
+    generateToken() {
       const { id, email, role } = this;
       return sign({ id, email, role }, process.env.JWT_SECRET);
     }
