@@ -8,6 +8,7 @@ const areas = [];
 
 beforeAll(async () => {
   const user = await User.create({
+    name: "User",
     email: "user@mail.com",
     password: "rahasia",
     role: "admin",

@@ -11,13 +11,15 @@ afterAll(async () => {
 
 describe("Auth Controller", () => {
   test("POST /api/register", async () => {
-    const user = { email: "test@mail.com", password: "rahasia" };
+    const user = { name: "Test", email: "test@mail.com", password: "rahasia" };
     const res = await request(app)
       .post("/api/register")
       .set("Content-Type", "application/json")
       .send(user);
 
     expect(res.statusCode).toBe(201);
+    expect(res.body.id).toBeDefined();
+    expect(res.body.name).toBe(user.name);
     expect(res.body.email).toBe(user.email);
   });
 

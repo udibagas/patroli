@@ -7,6 +7,7 @@ const shifts = [];
 
 beforeAll(async () => {
   const user = await User.create({
+    name: "User 1",
     email: "user1@mail.com",
     password: "rahasia",
     role: "admin",

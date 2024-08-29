@@ -8,6 +8,7 @@ const inspections = [];
 
 beforeAll(async () => {
   const user = await User.create({
+    name: "User 3",
     email: "user3@mail.com",
     password: "rahasia",
     role: "admin",

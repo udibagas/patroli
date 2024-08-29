@@ -7,6 +7,7 @@ const templates = [];
 
 beforeAll(async () => {
   const user = await User.create({
+    name: "User 2",
     email: "user2@mail.com",
     password: "rahasia",
     role: "admin",

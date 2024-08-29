@@ -17,16 +17,25 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     generateToken() {
-      const { id, email, role } = this;
-      return sign({ id, email, role }, process.env.JWT_SECRET);
+      const { id, name, email, role } = this;
+      return sign({ id, name, email, role }, process.env.JWT_SECRET);
     }
   }
 
   User.init(
     {
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: { msg: "Nama harus diisi" },
+          notEmpty: { msg: "Nama harus diisi" },
+        },
+      },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: { msg: "Email sudah dipakai" },
         validate: {
           notNull: { msg: "Email harus diisi" },
           notEmpty: { msg: "Email harus diisi" },
