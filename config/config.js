@@ -8,6 +8,7 @@ module.exports = {
     database: "patroli_dev",
     host: DB_HOST || "127.0.0.1",
     dialect: "postgres",
+    logging: false,
   },
   test: {
     username: "postgres",
