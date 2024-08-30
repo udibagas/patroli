@@ -1,5 +1,5 @@
 <template>
-  <el-page-header @back="goBack" content="Station">
+  <el-page-header @back="goBack" content="Template Inspeksi">
     <template #extra>
       <el-button
         size="small"
@@ -7,7 +7,7 @@
         type="primary"
         @click="openForm()"
       >
-        TAMBAH STATION
+        TAMBAH TEMPLATE INSPEKSI
       </el-button>
     </template>
   </el-page-header>
@@ -16,8 +16,7 @@
 
   <el-table stripe v-loading="loading" :data="data" class="border-t">
     <el-table-column type="index" label="#"></el-table-column>
-    <el-table-column label="Kode" prop="code" />
-    <el-table-column label="Nama" prop="name" />
+    <el-table-column label="Hasil" prop="result" />
 
     <el-table-column
       width="60px"
@@ -26,7 +25,7 @@
       fixed="right"
     >
       <template #header>
-        <el-button link @click="getData()" :icon="ElIconRefresh"> </el-button>
+        <el-button link @click="getAll()" :icon="ElIconRefresh"> </el-button>
       </template>
       <template #default="{ row }">
         <el-dropdown>
@@ -56,12 +55,12 @@
     </el-table-column>
   </el-table>
 
-  <StationForm />
+  <InspectionTemplateForm />
 </template>
 
 <script setup>
 import { openForm } from "~/store/form.store";
-const { getAll, remove, data, loading } = useApi("/api/stations");
+const { getAll, remove, data, loading } = useApi("/api/inspection-templates");
 
 onMounted(() => {
   getAll();

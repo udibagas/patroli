@@ -19,17 +19,6 @@ exports.index = async (req, res, next) => {
   }
 };
 
-exports.show = async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    const station = await Station.findByPk(id);
-    if (!station) throw new NotFoundError();
-    res.status(200).json(station);
-  } catch (error) {
-    next(error);
-  }
-};
-
 exports.update = async (req, res, next) => {
   const { id } = req.params;
   try {

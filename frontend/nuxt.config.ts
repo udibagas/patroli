@@ -18,5 +18,10 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ["@element-plus/nuxt", "@nuxtjs/tailwindcss"],
+  modules: [
+    "@element-plus/nuxt",
+    "@nuxtjs/tailwindcss",
+    "@pinia/nuxt",
+    "@hebilicious/vue-query-nuxt",
+  ],
 });

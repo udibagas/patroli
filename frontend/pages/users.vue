@@ -4,17 +4,17 @@
       <el-button
         size="small"
         :icon="ElIconPlus"
-        type="success"
+        type="primary"
         @click="openForm()"
       >
-        ADD NEW COMPANY
+        TAMBAH USER
       </el-button>
     </template>
   </el-page-header>
 
   <br />
 
-  <el-table stripe v-loading="loading" :data="data">
+  <el-table stripe v-loading="loading" :data="data" class="border-t">
     <el-table-column type="index" label="#"></el-table-column>
     <el-table-column label="Name" prop="name" />
     <el-table-column label="Email" prop="email" />
@@ -46,7 +46,7 @@
               </el-dropdown-item>
               <el-dropdown-item
                 :icon="ElIconDelete"
-                @click.native.prevent="remove(row.id, getData)"
+                @click.native.prevent="remove(row.id)"
               >
                 Delete
               </el-dropdown-item>
@@ -57,28 +57,14 @@
     </el-table-column>
   </el-table>
 
-  <UserForm :callback="getData" />
+  <UserForm />
 </template>
 
 <script setup>
 import { openForm } from "~/store/form.store";
-const { getAll, remove } = useApi("/api/users");
-const data = ref([]);
-const loading = ref(false);
-
-function getData() {
-  loading.value = true;
-
-  getAll()
-    .then((res) => {
-      data.value = res;
-    })
-    .finally(() => {
-      loading.value = false;
-    });
-}
+const { getAll, remove, data, loading } = useApi("/api/users");
 
 onMounted(() => {
-  getData();
+  getAll();
 });
 </script>

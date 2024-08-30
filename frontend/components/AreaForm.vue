@@ -2,7 +2,7 @@
   <el-dialog
     v-model="showForm"
     width="500px"
-    :title="!!form.id ? 'EDIT USER' : 'TAMBAH USER'"
+    :title="!!form.id ? 'EDIT AREA' : 'TAMBAH AREA'"
     :close-on-click-modal="false"
   >
     <el-form
@@ -10,29 +10,17 @@
       label-position="left"
       @submit.native.prevent="form.id ? update(form.id, form) : create(form)"
     >
-      <el-form-item label="Name" :error="errors.name">
-        <el-input placeholder="Name" v-model="form.name"></el-input>
+      <el-form-item label="Nama" :error="errors.name">
+        <el-input placeholder="Nama" v-model="form.name"></el-input>
       </el-form-item>
 
-      <el-form-item label="Email" :error="errors.email">
-        <el-input placeholder="Email" v-model="form.email"></el-input>
-      </el-form-item>
-
-      <el-form-item label="Password" :error="errors.password">
-        <el-input
-          type="password"
-          placeholder="Password"
-          v-model="form.password"
-        ></el-input>
-      </el-form-item>
-
-      <el-form-item label="Role" :error="errors.role">
-        <el-select v-model="form.role" placeholder="Role">
+      <el-form-item label="Station" :error="errors.StationId">
+        <el-select v-model="form.StationId" placeholder="Station">
           <el-option
-            v-for="(role, i) in ['user', 'admin']"
-            :value="role"
-            :label="role"
-            :key="i"
+            v-for="station in stations"
+            :value="station.id"
+            :label="`${station.code} - ${station.name}`"
+            :key="station.id"
           >
           </el-option>
         </el-select>
@@ -56,5 +44,10 @@
 
 <script setup>
 import { form, errors, showForm, closeForm } from "~/store/form.store";
-const { create, update } = useApi("/api/users");
+const { request, create, update } = useApi("/api/areas");
+
+const { data: stations } = useQuery({
+  queryKey: ["stations"],
+  queryFn: () => request("/api/stations"),
+});
 </script>

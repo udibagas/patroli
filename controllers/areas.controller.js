@@ -1,4 +1,4 @@
-const { Area } = require("../models");
+const { Area, Station } = require("../models");
 const NotFoundError = require("../errors/NotfoundError");
 
 exports.create = async (req, res, next) => {
@@ -12,19 +12,11 @@ exports.create = async (req, res, next) => {
 
 exports.index = async (req, res, next) => {
   try {
-    const areas = await Area.findAll({ order: [["name", "asc"]] });
+    const areas = await Area.findAll({
+      order: [["name", "asc"]],
+      include: Station,
+    });
     res.status(200).json(areas);
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.show = async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    const area = await Area.findByPk(id);
-    if (!area) throw new NotFoundError();
-    res.status(200).json(area);
   } catch (error) {
     next(error);
   }

@@ -11,7 +11,6 @@ const router = require("express").Router();
 router
   .post("/", isAdmin, create)
   .get("/", index)
-  .get("/:id", show)
   .put("/:id", isAdmin, update)
   .delete("/:id", isAdmin, remove);
 

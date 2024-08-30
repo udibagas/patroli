@@ -1,5 +1,7 @@
-const config = useRuntimeConfig();
 import { errors, closeForm } from "~/store/form.store";
+const config = useRuntimeConfig();
+const loading = ref(false);
+const data = ref([]);
 
 export default (url) => {
   const request = $fetch.create({
@@ -22,20 +24,25 @@ export default (url) => {
   });
 
   function getAll(params = {}) {
-    return request(url, { params });
+    loading.value = true;
+    request(url, { params })
+      .then((res) => {
+        data.value = res;
+      })
+      .finally(() => {
+        loading.value = false;
+      });
   }
 
   function getOne(id) {
     return request(`${url}/${id}`);
   }
 
-  function create(body, callback) {
+  function create(body) {
     request(url, { method: "POST", body })
       .then(() => {
         closeForm();
-        if (typeof callback == "function") {
-          callback();
-        }
+        getAll();
       })
       .catch((error) => {
         if (error.response.status == 400) {
@@ -44,13 +51,11 @@ export default (url) => {
       });
   }
 
-  function update(id, body, callback) {
+  function update(id, body) {
     request(`${url}/${id}`, { method: "PUT", body })
       .then(() => {
         closeForm();
-        if (typeof callback == "function") {
-          callback();
-        }
+        getAll();
       })
       .catch((error) => {
         if (error.response.status == 400) {
@@ -59,23 +64,25 @@ export default (url) => {
       });
   }
 
-  async function remove(id, callback) {
+  async function remove(id) {
     try {
       await ElMessageBox.confirm(
         "Anda yakin akan menghapus data ini?",
         "Perhatian",
-        { cancelButtonText: "BATAL", center: true }
+        {
+          cancelButtonText: "BATAL",
+          center: true,
+          type: "warning",
+        }
       );
 
       request(`${url}/${id}`, { method: "DELETE" }).then(() => {
-        if (typeof callback == "function") {
-          callback();
-        }
+        getAll();
       });
     } catch (error) {
       console.log(error);
     }
   }
 
-  return { request, getAll, getOne, create, update, remove };
+  return { request, getAll, getOne, create, update, remove, loading, data };
 };

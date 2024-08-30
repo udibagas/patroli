@@ -72,6 +72,11 @@ const navigationList = [
     icon: ElIconClock,
   },
   {
+    path: "/inspection-templates",
+    label: "Template Inspeksi",
+    icon: ElIconDocument,
+  },
+  {
     path: "/users",
     label: "User",
     icon: ElIconUser,
@@ -83,6 +88,7 @@ async function logout() {
     await ElMessageBox.confirm("Anda yakin akan keluar?", "Peringatan", {
       center: true,
       cancelButtonText: "BATAL",
+      type: "warning",
     });
 
     await request("/api/logout", { method: "post" });
@@ -91,8 +97,4 @@ async function logout() {
     console.log(error);
   }
 }
-
-// onBeforeMount(() => {
-//   request('/api/me')
-// })
 </script>

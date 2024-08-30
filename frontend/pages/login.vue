@@ -43,7 +43,7 @@ const login = async () => {
 
   request("/api/login", {
     method: "POST",
-    body: { email: email.value, password: password.value },
+    body: { email: email.value, password: password.value, role: "admin" },
   }).then((res) => {
     setUser(res.user);
     return navigateTo("/");

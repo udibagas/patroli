@@ -11,10 +11,10 @@ exports.register = async (req, res, next) => {
 };
 
 exports.login = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, role = "user" } = req.body;
 
   try {
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email, role } });
     if (!user) throw new UnauthenticatedError("Username atau password salah");
     if (!user.verify(password)) {
       throw new UnauthenticatedError("Username atau password salah");
