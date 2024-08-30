@@ -26,6 +26,10 @@ exports.login = async (req, res, next) => {
   }
 };
 
+exports.logout = async (req, res) => {
+  res.clearCookie("token").status(200).json({ message: "See you!" });
+};
+
 exports.me = async (req, res) => {
   res.status(200).json(req.user);
 };
