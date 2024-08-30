@@ -12,6 +12,7 @@ exports.register = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;
+
   try {
     const user = await User.findOne({ where: { email } });
     if (!user) throw new UnauthenticatedError("Username atau password salah");
