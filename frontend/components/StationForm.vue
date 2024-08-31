@@ -19,7 +19,7 @@
       </el-form-item>
     </el-form>
 
-    <el-table :data="form.Areas">
+    <el-table :data="form.Areas" class="border-t">
       <el-table-column label="#" type="index" />
       <el-table-column label="Area">
         <template #default="{ row }">

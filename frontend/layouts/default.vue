@@ -5,20 +5,31 @@
         Sistem Patroli PT. Ungaran Sari Garment
       </div>
 
-      <el-dropdown>
-        <el-avatar :icon="ElIconUser"></el-avatar>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item :icon="ElIconUser">Profil</el-dropdown-item>
-            <el-dropdown-item
-              :icon="ElIconArrowRight"
-              @click.native.prevent="logout"
-            >
-              Logout
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
+      <div class="flex items-center gap-3">
+        <el-dropdown>
+          <el-avatar :size="30">{{ user?.name[0] }}</el-avatar>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item
+                :icon="ElIconUser"
+                @click.native.prevent="showProfileForm = true"
+              >
+                Profil
+              </el-dropdown-item>
+              <el-dropdown-item
+                :icon="ElIconArrowRight"
+                @click.native.prevent="logout"
+              >
+                Logout
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+
+        <div class="text-white">
+          {{ user?.name }}
+        </div>
+      </div>
     </el-header>
 
     <el-container>
@@ -45,10 +56,14 @@
       <el-main><slot /></el-main>
     </el-container>
   </el-container>
+
+  <ProfileForm :show="showProfileForm" @close="showProfileForm = false" />
 </template>
 
 <script setup>
+import { user, getProfile } from "~/store/auth.store";
 const { request } = useApi();
+const showProfileForm = ref(false);
 
 const navigationList = [
   {
@@ -97,4 +112,8 @@ async function logout() {
     console.log(error);
   }
 }
+
+onBeforeMount(() => {
+  getProfile();
+});
 </script>
