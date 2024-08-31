@@ -12,7 +12,7 @@ exports.create = async (req, res, next) => {
 
 exports.index = async (req, res, next) => {
   try {
-    const areas = await Shift.findAll({ order: [["name", "asc"]] });
+    const areas = await Shift.findAll({ order: [["start", "asc"]] });
     res.status(200).json(areas);
   } catch (error) {
     next(error);

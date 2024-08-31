@@ -1,4 +1,4 @@
-const { Inspection, InspectionImage } = require("../models");
+const { Inspection, InspectionImage, Station, User } = require("../models");
 const NotFoundError = require("../errors/NotfoundError");
 
 exports.create = async (req, res, next) => {
@@ -27,6 +27,7 @@ exports.index = async (req, res, next) => {
   try {
     const inspections = await Inspection.findAll({
       order: [["updatedAt", "asc"]],
+      include: [User, Station],
     });
     res.status(200).json(inspections);
   } catch (error) {

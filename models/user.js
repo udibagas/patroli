@@ -59,13 +59,13 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "User",
+      timestamps: false,
     }
   );
 
   User.beforeSave((instance) => {
     if (instance.password) {
-      const salt = genSaltSync(10);
-      instance.password = hashSync(instance.password, salt);
+      instance.password = hashSync(instance.password, 10);
     }
   });
 

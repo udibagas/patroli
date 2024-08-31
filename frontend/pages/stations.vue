@@ -1,11 +1,11 @@
 <template>
-  <el-page-header @back="goBack" content="Station">
+  <el-page-header @back="goBack" content="Station & Area">
     <template #extra>
       <el-button
         size="small"
         :icon="ElIconPlus"
         type="primary"
-        @click="openForm()"
+        @click="openForm({ Areas: [] })"
       >
         TAMBAH STATION
       </el-button>
@@ -15,9 +15,23 @@
   <br />
 
   <el-table stripe v-loading="loading" :data="data" class="border-t">
-    <el-table-column type="index" label="#"></el-table-column>
-    <el-table-column label="Kode" prop="code" />
+    <el-table-column
+      label="Kode"
+      prop="code"
+      width="80"
+      align="center"
+      header-align="center"
+    />
     <el-table-column label="Nama" prop="name" />
+    <el-table-column label="Area">
+      <template #default="{ row }">
+        <ul>
+          <li v-for="(area, i) in row.Areas" :key="area.id">
+            {{ ++i }}. {{ area.name }}
+          </li>
+        </ul>
+      </template>
+    </el-table-column>
 
     <el-table-column
       width="60px"
@@ -26,7 +40,7 @@
       fixed="right"
     >
       <template #header>
-        <el-button link @click="getData()" :icon="ElIconRefresh"> </el-button>
+        <el-button link @click="getAll()" :icon="ElIconRefresh"> </el-button>
       </template>
       <template #default="{ row }">
         <el-dropdown>

@@ -58,14 +58,14 @@ const navigationList = [
   },
   {
     path: "/stations",
-    label: "Station",
+    label: "Station & Area",
     icon: ElIconLocation,
   },
-  {
-    path: "/areas",
-    label: "Area",
-    icon: ElIconMenu,
-  },
+  // {
+  //   path: "/areas",
+  //   label: "Area",
+  //   icon: ElIconMenu,
+  // },
   {
     path: "/shifts",
     label: "Shift",

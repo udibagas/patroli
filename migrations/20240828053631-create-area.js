@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       name: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING(100),
         allowNull: false,
       },
       StationId: {
@@ -19,6 +19,8 @@ module.exports = {
         references: {
           model: "Stations",
         },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       },
     });
   },

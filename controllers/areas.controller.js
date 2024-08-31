@@ -13,7 +13,7 @@ exports.create = async (req, res, next) => {
 exports.index = async (req, res, next) => {
   try {
     const areas = await Area.findAll({
-      order: [["name", "asc"]],
+      order: [["StationId", "asc"]],
       include: Station,
     });
     res.status(200).json(areas);
