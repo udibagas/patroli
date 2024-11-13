@@ -15,7 +15,7 @@ exports.errorHandler = (err, req, res, next) => {
   }
 
   if (status == 500) {
-    console.log(err);
+    console.error(err.message);
   }
 
   res.status(status).json({ error, message, errors });
