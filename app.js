@@ -1,4 +1,5 @@
 require("dotenv").config();
+const fs = require("fs");
 const express = require("express");
 const cors = require("cors");
 const { createHandler } = require("graphql-http/lib/use/express");
@@ -28,12 +29,14 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.all("/graphql", auth, createHandler({ schema, rootValue }));
-app.get("/", (_req, res) => {
+app.get("/gql", (_req, res) => {
   res.type("html");
   res.end(ruruHTML({ endpoint: "/graphql" }));
 });
 
 app.use("/api", require("./routes"));
+app.use(express.static("./frontend/.output/public"));
+
 app.use(errorHandler);
 
 module.exports = app;

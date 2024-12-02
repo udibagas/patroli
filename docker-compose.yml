@@ -13,9 +13,6 @@ services:
       - JWT_SECRET=inirahasiakitabersama
     depends_on:
       - db
-    command: npm start
-    expose:
-      - 3000
 
   db:
     image: postgres:16
