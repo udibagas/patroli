@@ -13,7 +13,7 @@ services:
       - JWT_SECRET=inirahasiakitabersama
     depends_on:
       - db
-    command: npx sequelize db:create && npx sequelize db:migrate && npm start
+    command: npx sequelize db:migrate && npm start
     expose:
       - 3000
 
