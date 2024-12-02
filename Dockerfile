@@ -10,6 +10,6 @@ COPY . .
 
 ENV NODE_ENV=production
 
-RUN cd frontend && npm run generate
+RUN cd frontend && npm install && npm run generate
 
 CMD [ "npm", "start" ]
