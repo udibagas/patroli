@@ -2,7 +2,7 @@
 const { Model, QueryTypes } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Shift extends Model {
-    static async getShift() {
+    static async getCurrentShift() {
       const time = new Date()
         .toLocaleString("id-ID", { timeStyle: "short" })
         .replace(".", ":");

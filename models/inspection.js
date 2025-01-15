@@ -52,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Inspection.beforeCreate(async (instance) => {
-    instance.shift = await sequelize.models.Shift.getShift();
+    instance.shift = await sequelize.models.Shift.getCurrentShift();
   });
 
   return Inspection;

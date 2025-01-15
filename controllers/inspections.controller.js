@@ -1,20 +1,40 @@
-const { Inspection, InspectionImage, Station, User } = require("../models");
+const {
+  Inspection,
+  InspectionImage,
+  Station,
+  User,
+  Shift,
+} = require("../models");
+
 const NotFoundError = require("../errors/NotfoundError");
+const moment = require("moment");
 
 exports.create = async (req, res, next) => {
   const { id: UserId } = req.user;
-  const { images } = req.body;
+  const { location, result } = req.body;
+  const { path, originalname } = req.file;
 
   try {
-    const inspection = await Inspection.create({ ...req.body, UserId });
+    const station = await Station.findOne({
+      where: { name: location },
+    });
 
-    if (images) {
-      await InspectionImage.bulkCreate(
-        images.map((el) => {
-          el.InspectionId = inspection.id;
-          return el;
-        })
-      );
+    if (!station) {
+      throw new NotFoundError("Station tidak ditemukan");
+    }
+
+    const inspection = await Inspection.create({
+      result,
+      UserId,
+      StationId: station.id,
+    });
+
+    if (path) {
+      await InspectionImage.create({
+        path: path.split("public/")[1],
+        name: originalname,
+        InspectionId: inspection.id,
+      });
     }
 
     res.status(201).json(inspection);
@@ -29,6 +49,7 @@ exports.index = async (req, res, next) => {
       order: [["updatedAt", "asc"]],
       include: [User, Station],
     });
+    console.log(inspections);
     res.status(200).json(inspections);
   } catch (error) {
     next(error);

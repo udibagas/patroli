@@ -15,18 +15,19 @@ app.set("view engine", "ejs");
 
 app.use(
   cors({
-    origin: [
-      "http://localhost",
-      "http://localhost:4000",
-      "http://localhost:3000",
-      "http://192.168.1.18:8081",
-    ],
+    origin: ["http://localhost:4000", "http://localhost"],
     credentials: true,
   })
 );
 
+app.get("/", (req, res) => {
+  res.send("OK");
+});
+
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
 app.all("/graphql", auth, createHandler({ schema, rootValue }));
 app.get("/gql", (_req, res) => {
