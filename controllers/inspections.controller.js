@@ -11,7 +11,6 @@ const NotFoundError = require("../errors/NotfoundError");
 exports.create = async (req, res, next) => {
   const { id: UserId } = req.user;
   const { location, result } = req.body;
-  const { path, originalname } = req.file;
 
   try {
     const station = await Station.findOne({
@@ -28,12 +27,15 @@ exports.create = async (req, res, next) => {
       StationId: station.id,
     });
 
-    if (path) {
-      await InspectionImage.create({
-        path: path.split("public/")[1],
-        name: originalname,
-        InspectionId: inspection.id,
-      });
+    if (req.files?.length > 0) {
+      for (const file of req.files) {
+        const { path, originalname } = file;
+        await InspectionImage.create({
+          path: path.split("public/")[1],
+          name: originalname,
+          InspectionId: inspection.id,
+        });
+      }
     }
 
     res.status(201).json(inspection);

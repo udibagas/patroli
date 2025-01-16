@@ -33,7 +33,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router
-  .post("/", upload.single("file"), create)
+  .post("/", upload.fields([{ name: "images[]", maxCount: 10 }]), create)
   .get("/", index)
   .get("/:id", show)
   .put("/:id", isAdmin, update)
