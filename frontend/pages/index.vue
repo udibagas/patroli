@@ -1,6 +1,6 @@
 <template>
   <el-page-header @back="goBack" content="Laporan">
-    <template #extra>
+    <!-- <template #extra>
       <el-button
         size="small"
         :icon="ElIconDownload"
@@ -9,7 +9,7 @@
       >
         DOWNLOAD
       </el-button>
-    </template>
+    </template> -->
   </el-page-header>
 
   <br />
@@ -100,11 +100,18 @@
       </el-descriptions-item>
 
       <el-descriptions-item label="Foto Lokasi">
-        <img
-          v-for="image in selectedRecord.InspectionImages"
-          :key="image.id"
-          :src="`/${image.path}`"
-          alt=""
+        <el-image
+          v-if="selectedRecord.InspectionImages.length"
+          style="width: 100px; height: 100px"
+          :src="`/${selectedRecord.InspectionImages[0].path}`"
+          :zoom-rate="1.2"
+          :max-scale="7"
+          :min-scale="0.2"
+          :preview-src-list="
+            selectedRecord.InspectionImages.map((x) => `/${x.path}`)
+          "
+          :initial-index="0"
+          fit="cover"
         />
       </el-descriptions-item>
     </el-descriptions>
