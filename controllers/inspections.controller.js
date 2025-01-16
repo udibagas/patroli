@@ -48,7 +48,6 @@ exports.index = async (req, res, next) => {
       order: [["updatedAt", "asc"]],
       include: [User, Station],
     });
-    console.log(inspections);
     res.status(200).json(inspections);
   } catch (error) {
     next(error);
