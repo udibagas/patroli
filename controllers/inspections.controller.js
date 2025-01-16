@@ -50,6 +50,7 @@ exports.index = async (req, res, next) => {
     const offset = (page - 1) * limit;
 
     const { count: total, rows } = await Inspection.findAndCountAll({
+      distinct: true,
       order: [["updatedAt", "desc"]],
       include: [
         {

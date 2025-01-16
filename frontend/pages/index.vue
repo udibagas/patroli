@@ -1,15 +1,15 @@
 <template>
   <el-page-header @back="goBack" content="Laporan">
-    <!-- <template #extra>
+    <template #extra>
       <el-button
         size="small"
-        :icon="ElIconDownload"
+        :icon="ElIconRefresh"
         type="primary"
-        @click="openForm()"
+        @click="refresh"
       >
-        DOWNLOAD
+        REFRESH
       </el-button>
-    </template> -->
+    </template>
   </el-page-header>
 
   <br />
@@ -120,7 +120,6 @@
 
 <script setup>
 import moment from "moment";
-import { openForm } from "~/store/form.store";
 const { getAll, data, loading } = useApi("/api/inspections");
 
 const dialogVisible = ref(false);
@@ -129,7 +128,7 @@ const pageSize = ref(10);
 const currentPage = ref(1);
 
 onMounted(() => {
-  getAll({ page: 1, limit: 10 });
+  getAll({ page: 1, limit: pageSize.value });
 });
 
 function handleRowClick(row) {
@@ -146,5 +145,10 @@ function handleSizeChange(size) {
 function handleCurrentChange(page) {
   currentPage.value = page;
   getAll({ page, limit: pageSize.value });
+}
+
+function refresh() {
+  currentPage.value = 1;
+  getAll({ page: 1, limit: pageSize.value });
 }
 </script>
