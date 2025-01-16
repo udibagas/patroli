@@ -15,7 +15,11 @@ app.set("view engine", "ejs");
 
 app.use(
   cors({
-    origin: ["http://localhost:4000", "http://localhost"],
+    origin: [
+      "http://localhost:4000",
+      "http://localhost",
+      "http://192.168.1.10:3000",
+    ],
     credentials: true,
   })
 );
