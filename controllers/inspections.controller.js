@@ -123,9 +123,12 @@ exports.remove = async (req, res, next) => {
 };
 
 exports.generatePdf = async (req, res, next) => {
-  const { id } = req.params;
+  const { shift, UserId } = req.query;
+  console.log(req.query);
+
   try {
-    const data = await Inspection.findByPk(id, {
+    const data = await Inspection.findAll({
+      where: { shift, UserId },
       include: [
         {
           model: User,
@@ -147,7 +150,8 @@ exports.generatePdf = async (req, res, next) => {
     });
 
     if (!data) throw new NotFoundError();
-    console.log(data.toJSON());
+
+    console.log(data);
 
     // res.render("inspection", { data });
 
@@ -157,7 +161,7 @@ exports.generatePdf = async (req, res, next) => {
       }
 
       res.pdfFromHTML({
-        filename: `inspection-${id}.pdf`,
+        filename: `laporan-patroli.pdf`,
         htmlContent: html,
         options: {
           format: "A4",

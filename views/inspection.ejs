@@ -86,7 +86,7 @@
       <table>
         <tbody>
           <tr>
-            <td class="text-bold">NAMA PETUGAS: <%= data.User.name %></td>
+            <td class="text-bold">NAMA PETUGAS: <%= data[0].User.name %></td>
             <td class="text-bold">JAM PATROLI: 22.00 - 06.00 WIB</td>
           </tr>
         </tbody>
@@ -105,11 +105,12 @@
         </thead>
 
         <tbody>
+          <% data.forEach(el => { %>
           <tr>
-            <td class="text-center"><%= data.Station.code %></td>
+            <td class="text-center"><%= el.Station.code %></td>
             <td>
               <ol>
-                <% data.Station.Areas.forEach(el => { %>
+                <% el.Station.Areas.forEach(el => { %>
                 <li><%= el.name %></li>
                 <% }) %>
               </ol>
@@ -117,14 +118,14 @@
 
             <td>
               <ul>
-                <% data.result.split(',').forEach(el => { %>
+                <% el.result.split(',').forEach(el => { %>
                 <li><%= el %></li>
                 <% }) %>
               </ul>
             </td>
 
             <td>
-              <% data.InspectionImages.forEach(image => { %>
+              <% el.InspectionImages.forEach(image => { %>
               <img
                 src="http://localhost:3000/<%= image.path %>"
                 alt="Inspection Image"
@@ -133,6 +134,7 @@
               <% }) %>
             </td>
           </tr>
+          <% }) %>
         </tbody>
       </table>
     </div>

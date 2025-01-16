@@ -37,7 +37,7 @@ app.get("/gql", (_req, res) => {
   res.end(ruruHTML({ endpoint: "/graphql" }));
 });
 
-app.get("/api/inspections/generatePdf/:id", generatePdf);
+app.get("/api/inspections/generatePdf", generatePdf);
 app.use("/api", require("./routes"));
 app.use(express.static("./frontend/.output/public"));
 
