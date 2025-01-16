@@ -3,9 +3,8 @@ const {
   InspectionImage,
   Station,
   User,
-  Shift,
+  Area,
 } = require("../models");
-
 const NotFoundError = require("../errors/NotfoundError");
 
 exports.create = async (req, res, next) => {
@@ -25,8 +24,10 @@ exports.create = async (req, res, next) => {
       StationId: station.id,
     });
 
-    if (req.files?.length > 0) {
-      for (const file of req.files) {
+    const images = req.files["images[]"] || [];
+
+    if (images.length > 0) {
+      for (const file of images) {
         const { path, originalname } = file;
         await InspectionImage.create({
           path: path.split("public/")[1],
@@ -44,11 +45,41 @@ exports.create = async (req, res, next) => {
 
 exports.index = async (req, res, next) => {
   try {
-    const inspections = await Inspection.findAll({
-      order: [["updatedAt", "asc"]],
-      include: [User, Station],
+    const page = parseInt(req.query.page) || 1; // Default to page 1 if not specified
+    const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page if not specified
+    const offset = (page - 1) * limit;
+
+    const { count: total, rows } = await Inspection.findAndCountAll({
+      order: [["updatedAt", "desc"]],
+      include: [
+        {
+          model: User,
+          attributes: ["name"],
+        },
+        {
+          model: Station,
+          attributes: ["name"],
+          include: {
+            model: Area,
+            attributes: ["name"],
+          },
+        },
+        {
+          model: InspectionImage,
+          attributes: ["path"],
+        },
+      ],
+      limit: limit,
+      offset: offset,
     });
-    res.status(200).json(inspections);
+
+    res.status(200).json({
+      total,
+      page,
+      rows,
+      from: offset + 1,
+      to: offset + rows.length,
+    });
   } catch (error) {
     next(error);
   }

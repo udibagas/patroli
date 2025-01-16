@@ -22,26 +22,21 @@ module.exports = (sequelize, DataTypes) => {
       },
       shift: {
         type: DataTypes.STRING,
-        // allowNull: false,
-        // validate: {
-        //   notNull: { msg: "Shift harus diisi" },
-        //   notEmpty: { msg: "Shift harus diisi" },
-        // },
       },
       StationId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          notNull: { msg: "Station harus diisi" },
-          notEmpty: { msg: "Station harus diisi" },
+          notNull: { msg: "Lokasi harus diisi" },
+          notEmpty: { msg: "Lokasi harus diisi" },
         },
       },
       result: {
         type: DataTypes.TEXT,
         allowNull: false,
         validate: {
-          notNull: { msg: "Result harus diisi" },
-          notEmpty: { msg: "Result harus diisi" },
+          notNull: { msg: "Keterangan harus diisi" },
+          notEmpty: { msg: "Keterangan harus diisi" },
         },
       },
     },
