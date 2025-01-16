@@ -15,13 +15,17 @@
     }
 
     .container {
-      width: 90%;
-      margin: 20px auto;
+      width: 100%;
     }
 
     h1 {
       text-align: center;
       margin-top: 20px;
+      font-size: 1.5rem;
+    }
+
+    h3 {
+      margin-top: 0;
     }
 
     p {
@@ -39,7 +43,6 @@
 
     th {
       background-color: #f2f2f2;
-      text-align: center;
     }
 
     th,
@@ -48,16 +51,20 @@
       padding: 5px;
     }
 
-    tr:nth-child(even) {
+    /* tr:nth-child(even) {
       background-color: #f2f2f2;
     }
 
     tr:nth-child(odd) {
       background-color: #ffffff;
-    }
+    } */
 
     .text-center {
       text-align: center;
+    }
+
+    .text-left {
+      text-align: left;
     }
 
     .text-bold {
@@ -77,19 +84,29 @@
         SECURITY - UNGARAN
       </h3>
 
-      <h3 class="text-center">
-        LAPORAN PATROLI <br />
-        <%= new Date(date).toLocaleString('id-ID', {weekday: 'long', year:
-        'numeric', month: 'long', day: '2-digit'}).toUpperCase() %> <br />
-        <%= shift %> (22.00 - 06.00)
-      </h3>
+      <h1 class="text-center">LAPORAN PATROLI</h1>
 
       <table>
         <tbody>
           <tr>
-            <td class="text-bold">NAMA PETUGAS: <%= data[0].User.name %></td>
-            <td class="text-bold">JAM PATROLI: 22.00 - 06.00 WIB</td>
+            <th width="120px" class="text-left">TANGGAL</th>
+            <td class="text-bold">
+              <%= new Date(date).toLocaleString('id-ID', {weekday: 'long', year:
+              'numeric', month: 'long', day: '2-digit'}).toUpperCase() %>
+            </td>
           </tr>
+          <tr>
+            <th class="text-left">SHIFT</th>
+            <td class="text-bold"><%= shift %> (07:00-08:00)</td>
+          </tr>
+          <tr>
+            <th class="text-left">NAMA PETUGAS</th>
+            <td class="text-bold"><%= data[0].User.name %></td>
+          </tr>
+          <!-- <tr>
+            <th class="text-left">JAM PATROLI</th>
+            <td class="text-bold">22.00 - 06.00 WIB</td>
+          </tr> -->
         </tbody>
       </table>
 
