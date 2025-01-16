@@ -128,9 +128,9 @@ exports.generatePdf = async (req, res, next) => {
 
   try {
     const data = await Inspection.report({ shift, UserId, date });
-    // res.render("inspection", { data });
+    // res.render("inspection", { data, date, shift });
 
-    res.render("inspection", { data }, (err, html) => {
+    res.render("inspection", { data, date, shift }, (err, html) => {
       if (err) {
         throw err;
       }

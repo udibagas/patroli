@@ -66,8 +66,8 @@
 
     ol,
     ul {
-      margin: 10px;
-      padding: 0;
+      padding-inline-start: 20px;
+      padding-left: 20px;
     }
   </style>
   <body>
@@ -79,8 +79,9 @@
 
       <h3 class="text-center">
         LAPORAN PATROLI <br />
-        SELASA, 10 JANUARI 2025 <br />
-        SHIFT III C (22.00 - 06.00)
+        <%= new Date(date).toLocaleString('id-ID', {weekday: 'long', year:
+        'numeric', month: 'long', day: '2-digit'}).toUpperCase() %> <br />
+        <%= shift %> (22.00 - 06.00)
       </h3>
 
       <table>
@@ -99,6 +100,7 @@
           <tr>
             <th>POINT STATION NO</th>
             <th>AREA</th>
+            <th>WAKTU</th>
             <th>HASIL PATROLI</th>
             <th>CAPTURE</th>
           </tr>
@@ -116,6 +118,11 @@
               </ol>
             </td>
 
+            <td class="text-center">
+              <%= el.createdAt.toLocaleString('id-ID', { timeStyle:
+              'short'}).replaceAll('.', ':') %> WIB
+            </td>
+
             <td>
               <ul>
                 <% el.result.split(',').forEach(el => { %>
@@ -124,12 +131,12 @@
               </ul>
             </td>
 
-            <td>
+            <td class="text-center">
               <% el.InspectionImages.forEach(image => { %>
               <img
                 src="http://localhost:3000/<%= image.path %>"
                 alt="Inspection Image"
-                style="width: 100px; height: auto"
+                style="width: 120px; height: auto"
               />
               <% }) %>
             </td>
