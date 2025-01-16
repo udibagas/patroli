@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       return Station.findOne({
         where: {
           name: {
-            [Op.iLike]: name,
+            [Op.iLike]: `${name}%`,
           },
         },
       });
