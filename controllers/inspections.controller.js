@@ -7,6 +7,7 @@ const {
 } = require("../models");
 const NotFoundError = require("../errors/NotfoundError");
 const { options } = require("ruru/cli");
+const { Op } = require("sequelize");
 
 exports.create = async (req, res, next) => {
   const { id: UserId } = req.user;
@@ -123,36 +124,10 @@ exports.remove = async (req, res, next) => {
 };
 
 exports.generatePdf = async (req, res, next) => {
-  const { shift, UserId } = req.query;
-  console.log(req.query);
+  const { shift, UserId, date } = req.query;
 
   try {
-    const data = await Inspection.findAll({
-      where: { shift, UserId },
-      include: [
-        {
-          model: User,
-          attributes: ["name"],
-        },
-        {
-          model: Station,
-          attributes: ["name", "code"],
-          include: {
-            model: Area,
-            attributes: ["name"],
-          },
-        },
-        {
-          model: InspectionImage,
-          attributes: ["path"],
-        },
-      ],
-    });
-
-    if (!data) throw new NotFoundError();
-
-    console.log(data);
-
+    const data = await Inspection.report({ shift, UserId, date });
     // res.render("inspection", { data });
 
     res.render("inspection", { data }, (err, html) => {
