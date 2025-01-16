@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Inspection Report</title>
+  </head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 80%;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    p {
+      margin-left: 20px;
+    }
+
+    img {
+      margin: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      text-align: center;
+    }
+
+    th,
+    td {
+      border: 1px solid black;
+      padding: 10px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tr:nth-child(odd) {
+      background-color: #ffffff;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .text-bold {
+      font-weight: bold;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <h3>
+        PT. UNGARAN SARI GARMENTS <br />
+        SECURITY - UNGARAN
+      </h3>
+
+      <h3 class="text-center">
+        LAPORAN PATROLI <br />
+        SELASA, 10 JANUARI 2025 <br />
+        SHIFT III C (22.00 - 06.00)
+      </h3>
+
+      <table>
+        <tbody>
+          <tr>
+            <td class="text-bold">NAMA PETUGAS: <%= data.User.name %></td>
+            <td class="text-bold">JAM PATROLI: 22.00 - 06.00</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <br />
+
+      <table>
+        <thead>
+          <tr>
+            <th>POINT STATION NO</th>
+            <th>AREA</th>
+            <th>HASIL PATROLI</th>
+            <th>CAPTURE</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td class="text-center"><%= data.Station.code %></td>
+            <td>
+              <ol>
+                <% data.Station.Areas.forEach(el => { %>
+                <li><%= el.name %></li>
+                <% }) %>
+              </ol>
+            </td>
+
+            <td>
+              <ul>
+                <% data.result.split(',').forEach(el => { %>
+                <li><%= el %></li>
+                <% }) %>
+              </ul>
+            </td>
+
+            <td>
+              <% data.InspectionImages.forEach(image => { %>
+              <img
+                src="http://localhost:3000/<%= image.path %>"
+                alt="Inspection Image"
+                style="width: 100px; height: auto"
+              />
+              <% }) %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

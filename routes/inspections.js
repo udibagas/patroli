@@ -6,6 +6,7 @@ const {
   show,
   update,
   remove,
+  generatePdf,
 } = require("../controllers/inspections.controller");
 const { isAdmin } = require("../middlewares/isAdmin.middleware");
 const router = require("express").Router();

@@ -120,3 +120,47 @@ exports.remove = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.generatePdf = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const data = await Inspection.findByPk(id, {
+      include: [
+        {
+          model: User,
+          attributes: ["name"],
+        },
+        {
+          model: Station,
+          attributes: ["name", "code"],
+          include: {
+            model: Area,
+            attributes: ["name"],
+          },
+        },
+        {
+          model: InspectionImage,
+          attributes: ["path"],
+        },
+      ],
+    });
+
+    if (!data) throw new NotFoundError();
+    console.log(data.toJSON());
+
+    res.render("inspection", { data });
+
+    // res.render("inspection", { data }, (err, html) => {
+    //   if (err) {
+    //     throw err;
+    //   }
+
+    //   res.pdfFromHTML({
+    //     filename: `inspection-${id}.pdf`,
+    //     htmlContent: html,
+    //   });
+    // });
+  } catch (error) {
+    next(error);
+  }
+};

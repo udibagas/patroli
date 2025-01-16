@@ -1,6 +1,6 @@
 require("dotenv").config();
-const fs = require("fs");
 const express = require("express");
+const pdf = require("express-pdf");
 const cors = require("cors");
 const { createHandler } = require("graphql-http/lib/use/express");
 const cookieParser = require("cookie-parser");
@@ -9,9 +9,11 @@ const { errorHandler } = require("./middlewares/errorHandler.middleware");
 const { schema } = require("./graphql/schema");
 const { resolver: rootValue } = require("./graphql/resolver");
 const { auth } = require("./middlewares/auth.middleware");
+const { generatePdf } = require("./controllers/inspections.controller");
 const app = express();
 
 app.set("view engine", "ejs");
+app.use(pdf);
 
 app.use(
   cors({
@@ -35,6 +37,7 @@ app.get("/gql", (_req, res) => {
   res.end(ruruHTML({ endpoint: "/graphql" }));
 });
 
+app.get("/api/inspections/generatePdf/:id", generatePdf);
 app.use("/api", require("./routes"));
 app.use(express.static("./frontend/.output/public"));
 
