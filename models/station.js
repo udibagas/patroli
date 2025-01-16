@@ -1,10 +1,20 @@
 "use strict";
-const { Model } = require("sequelize");
+const { Model, Op } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class Station extends Model {
     static associate(models) {
       Station.hasMany(models.Area);
+    }
+
+    static findByName(name) {
+      return Station.findOne({
+        where: {
+          name: {
+            [Op.iLike]: name,
+          },
+        },
+      });
     }
   }
 

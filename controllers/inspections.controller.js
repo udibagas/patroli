@@ -13,9 +13,7 @@ exports.create = async (req, res, next) => {
   const { location, result } = req.body;
 
   try {
-    const station = await Station.findOne({
-      where: { name: location },
-    });
+    const station = await Station.findByName(location);
 
     if (!station) {
       throw new NotFoundError("Station tidak ditemukan");
