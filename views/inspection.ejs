@@ -10,9 +10,13 @@
       padding: 0;
     }
 
+    * {
+      font-size: 0.8rem;
+    }
+
     .container {
-      width: 80%;
-      margin: 0 auto;
+      width: 90%;
+      margin: 20px auto;
     }
 
     h1 {
@@ -59,6 +63,12 @@
     .text-bold {
       font-weight: bold;
     }
+
+    ol,
+    ul {
+      margin: 10px;
+      padding: 0;
+    }
   </style>
   <body>
     <div class="container">
@@ -77,7 +87,7 @@
         <tbody>
           <tr>
             <td class="text-bold">NAMA PETUGAS: <%= data.User.name %></td>
-            <td class="text-bold">JAM PATROLI: 22.00 - 06.00</td>
+            <td class="text-bold">JAM PATROLI: 22.00 - 06.00 WIB</td>
           </tr>
         </tbody>
       </table>

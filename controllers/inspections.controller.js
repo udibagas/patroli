@@ -6,6 +6,7 @@ const {
   Area,
 } = require("../models");
 const NotFoundError = require("../errors/NotfoundError");
+const { options } = require("ruru/cli");
 
 exports.create = async (req, res, next) => {
   const { id: UserId } = req.user;
@@ -148,18 +149,22 @@ exports.generatePdf = async (req, res, next) => {
     if (!data) throw new NotFoundError();
     console.log(data.toJSON());
 
-    res.render("inspection", { data });
+    // res.render("inspection", { data });
 
-    // res.render("inspection", { data }, (err, html) => {
-    //   if (err) {
-    //     throw err;
-    //   }
+    res.render("inspection", { data }, (err, html) => {
+      if (err) {
+        throw err;
+      }
 
-    //   res.pdfFromHTML({
-    //     filename: `inspection-${id}.pdf`,
-    //     htmlContent: html,
-    //   });
-    // });
+      res.pdfFromHTML({
+        filename: `inspection-${id}.pdf`,
+        htmlContent: html,
+        options: {
+          format: "A4",
+          orientation: "portrait",
+        },
+      });
+    });
   } catch (error) {
     next(error);
   }
