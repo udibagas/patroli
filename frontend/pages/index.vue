@@ -35,21 +35,24 @@
       label="#"
       :index="objData.from"
     ></el-table-column>
+
     <el-table-column label="Tanggal" width="120px">
       <template #default="{ row }">
-        {{ moment(row.createdAt).format("DD-MMM-YYYY") }}
+        {{ moment(row.reportDate).format("DD-MMM-YYYY") }}
       </template>
     </el-table-column>
+
     <el-table-column label="Shift" prop="shift" width="120px" />
 
-    <el-table-column label="Jam" width="120px">
+    <el-table-column label="Waktu" width="150px">
       <template #default="{ row }">
-        {{ moment(row.createdAt).format("HH:mm") }}
+        {{ moment(row.createdAt).format("DD-MMM-YYYY HH:mm") }}
       </template>
     </el-table-column>
 
-    <el-table-column label="Station" prop="Station.name" />
     <el-table-column label="Petugas" prop="User.name" width="120px" />
+
+    <el-table-column label="Station" prop="Station.name" />
   </el-table>
 
   <br />
