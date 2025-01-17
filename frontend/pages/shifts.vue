@@ -19,6 +19,16 @@
     <el-table-column label="Nama" prop="name" />
     <el-table-column label="Mulai" prop="start" />
     <el-table-column label="Selesai" prop="end" />
+    <el-table-column label="Hari Berikutnya" prop="nextDay">
+      <template #default="{ row }">
+        <el-switch
+          v-model="row.nextDay"
+          active-color="#13ce66"
+          inactive-color="#ff4949"
+          :disabled="true"
+        />
+      </template>
+    </el-table-column>
 
     <el-table-column
       width="60px"

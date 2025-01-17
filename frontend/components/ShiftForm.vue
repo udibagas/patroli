@@ -6,7 +6,7 @@
     :close-on-click-modal="false"
   >
     <el-form
-      label-width="100px"
+      label-width="150px"
       label-position="left"
       @submit.native.prevent="form.id ? update(form.id, form) : create(form)"
     >
@@ -31,6 +31,14 @@
           step="00:01"
           end="23:59"
           placeholder="Selesai"
+        />
+      </el-form-item>
+
+      <el-form-item label="Hari Berikutnya" :error="errors.nextDay">
+        <el-switch
+          v-model="form.nextDay"
+          active-color="#13ce66"
+          inactive-color="#ff4949"
         />
       </el-form-item>
     </el-form>

@@ -71,6 +71,11 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: { msg: "End harus diisi" },
         },
       },
+      nextDay: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
     },
     {
       sequelize,

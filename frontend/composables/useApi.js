@@ -2,6 +2,7 @@ import { errors, closeForm } from "~/store/form.store";
 const config = useRuntimeConfig();
 const loading = ref(false);
 const data = ref([]);
+const objData = ref({});
 
 export default (url) => {
   const request = $fetch.create({
@@ -27,7 +28,11 @@ export default (url) => {
     loading.value = true;
     request(url, { params })
       .then((res) => {
-        data.value = res;
+        if (Array.isArray(res)) {
+          data.value = res;
+        } else {
+          objData.value = res;
+        }
       })
       .finally(() => {
         loading.value = false;
@@ -84,5 +89,15 @@ export default (url) => {
     }
   }
 
-  return { request, getAll, getOne, create, update, remove, loading, data };
+  return {
+    getAll,
+    getOne,
+    create,
+    update,
+    remove,
+    request,
+    loading,
+    data,
+    objData,
+  };
 };

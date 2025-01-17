@@ -3,6 +3,15 @@
     <template #extra>
       <el-button
         size="small"
+        :icon="ElIconDocument"
+        type="primary"
+        @click="openForm()"
+      >
+        GENERATE REPORT
+      </el-button>
+
+      <el-button
+        size="small"
         :icon="ElIconRefresh"
         type="primary"
         @click="refresh"
@@ -17,14 +26,14 @@
   <el-table
     stripe
     v-loading="loading"
-    :data="data.rows"
+    :data="objData.rows"
     class="border-t"
     v-on:row-click="handleRowClick"
   >
     <el-table-column
       type="index"
       label="#"
-      :index="data.from"
+      :index="objData.from"
     ></el-table-column>
     <el-table-column label="Tanggal" width="120px">
       <template #default="{ row }">
@@ -46,7 +55,7 @@
   <br />
 
   <el-pagination
-    v-if="data.total"
+    v-if="objData.total"
     @size-change="handleSizeChange"
     background
     size="small"
@@ -55,7 +64,7 @@
     :page-sizes="[10, 20, 30, 40]"
     :page-size="pageSize"
     layout="total, sizes, prev, pager, next"
-    :total="data.total"
+    :total="objData.total"
   />
 
   <el-dialog v-model="dialogVisible" title="Record Details">
@@ -116,11 +125,14 @@
       </el-descriptions-item>
     </el-descriptions>
   </el-dialog>
+
+  <ReportForm />
 </template>
 
 <script setup>
 import moment from "moment";
-const { getAll, data, loading } = useApi("/api/inspections");
+import { openForm } from "~/store/form.store";
+const { getAll, objData, loading } = useApi("/api/inspections");
 
 const dialogVisible = ref(false);
 const selectedRecord = ref({});
