@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       );
 
-      return records.length > 0 ? records[0].name : "-";
+      return records.length > 0 ? records[0] : null;
     }
 
     static findByName(name) {

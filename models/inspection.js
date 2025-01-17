@@ -74,8 +74,11 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Inspection.beforeCreate(async (instance) => {
-    instance.shift = await sequelize.models.Shift.getCurrentShift();
-    instance.reportDate = new Date();
+    const shift = await sequelize.models.Shift.getCurrentShift();
+    instance.shift = shift?.name || "-";
+    instance.reportDate = shift?.nextDay
+      ? new Date(new Date().setDate(new Date().getDate() - 1))
+      : new Date();
   });
 
   return Inspection;
