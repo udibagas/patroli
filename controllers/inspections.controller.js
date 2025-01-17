@@ -130,7 +130,7 @@ exports.generatePdf = async (req, res, next) => {
     date: reportDate = moment().format("YYYY-MM-DD"),
   } = req.query;
 
-  if (!shift || !UserId || !reportDate) {
+  if (!shift || !reportDate) {
     return res.status(400).json({
       message: "Data tidak lengkap",
     });
@@ -142,12 +142,6 @@ exports.generatePdf = async (req, res, next) => {
     return res.status(400).json({ message: "Shift tidak ditemukan" });
   }
 
-  const user = await User.findByPk(UserId);
-
-  if (!user) {
-    return res.status(400).json({ message: "User tidak ditemukan" });
-  }
-
   if (!moment(reportDate, "YYYY-MM-DD", true).isValid()) {
     return res.status(400).json({ message: "Tanggal tidak valid" });
   }
@@ -157,6 +151,13 @@ exports.generatePdf = async (req, res, next) => {
 
   try {
     const data = await Inspection.report({ shift, UserId, reportDate });
+
+    let user = data[0].User;
+
+    if (UserId) {
+      user = await User.findByPk(UserId);
+    }
+
     const baseUrl = `${req.protocol}://${req.get("host")}`;
     const payload = {
       baseUrl,
