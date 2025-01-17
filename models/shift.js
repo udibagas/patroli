@@ -17,6 +17,32 @@ module.exports = (sequelize, DataTypes) => {
 
       return records.length > 0 ? records[0].name : "-";
     }
+
+    static findByName(name) {
+      return Shift.findOne({ where: { name } });
+    }
+
+    async getEarlyStart() {
+      const data = await Shift.findOne({
+        attributes: ["start"],
+        where: { name: this.name },
+        order: [["start", "ASC"]],
+      });
+
+      if (!data) return "-";
+      return data.start;
+    }
+
+    async getLateEnd() {
+      const data = await Shift.findOne({
+        attributes: ["end"],
+        where: { name: this.name },
+        order: [["end", "DESC"]],
+      });
+
+      if (!data) return "-";
+      return data.end;
+    }
   }
 
   Shift.init(

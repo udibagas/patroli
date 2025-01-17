@@ -4,10 +4,10 @@ const {
   Station,
   User,
   Area,
+  Shift,
 } = require("../models");
 const NotFoundError = require("../errors/NotfoundError");
-const { options } = require("ruru/cli");
-const { Op } = require("sequelize");
+const moment = require("moment");
 
 exports.create = async (req, res, next) => {
   const { id: UserId } = req.user;
@@ -124,16 +124,52 @@ exports.remove = async (req, res, next) => {
 };
 
 exports.generatePdf = async (req, res, next) => {
-  const { shift, UserId, date } = req.query;
+  const {
+    shift,
+    UserId,
+    date: reportDate = moment().format("YYYY-MM-DD"),
+  } = req.query;
+
+  if (!shift || !UserId || !reportDate) {
+    return res.status(400).json({
+      message: "Data tidak lengkap",
+    });
+  }
+
+  const shiftDetail = await Shift.findByName(shift);
+
+  if (!shiftDetail) {
+    return res.status(400).json({ message: "Shift tidak ditemukan" });
+  }
+
+  const user = await User.findByPk(UserId);
+
+  if (!user) {
+    return res.status(400).json({ message: "User tidak ditemukan" });
+  }
+
+  if (!moment(reportDate, "YYYY-MM-DD", true).isValid()) {
+    return res.status(400).json({ message: "Tanggal tidak valid" });
+  }
+
+  const shiftStart = await shiftDetail.getEarlyStart();
+  const shiftEnd = await shiftDetail.getLateEnd();
 
   try {
-    const data = await Inspection.report({ shift, UserId, date });
-    // res.render("inspection", { data, date, shift });
+    const data = await Inspection.report({ shift, UserId, reportDate });
+    const payload = {
+      data,
+      reportDate,
+      shiftDetail,
+      shiftStart,
+      shiftEnd,
+      user,
+    };
 
-    res.render("inspection", { data, date, shift }, (err, html) => {
-      if (err) {
-        throw err;
-      }
+    // res.render("inspection", payload);
+
+    res.render("inspection", payload, (err, html) => {
+      if (err) throw err;
 
       res.pdfFromHTML({
         filename: `laporan-patroli.pdf`,

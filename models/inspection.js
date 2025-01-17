@@ -9,16 +9,9 @@ module.exports = (sequelize, DataTypes) => {
       Inspection.hasMany(models.InspectionImage);
     }
 
-    static report({ shift, UserId, date }) {
+    static report({ shift, UserId, reportDate }) {
       return this.findAll({
-        where: {
-          shift,
-          UserId,
-          createdAt: {
-            // kalau yang cross hari gimana?
-            [Op.between]: [`${date} 00:00:00`, `${date} 23:59:59`],
-          },
-        },
+        where: { shift, UserId, reportDate },
         include: [
           {
             model: sequelize.models.User,
