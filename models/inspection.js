@@ -54,6 +54,9 @@ module.exports = (sequelize, DataTypes) => {
       shift: {
         type: DataTypes.STRING,
       },
+      reportDate: {
+        type: DataTypes.DATEONLY,
+      },
       StationId: {
         type: DataTypes.INTEGER,
         allowNull: false,
