@@ -157,7 +157,9 @@ exports.generatePdf = async (req, res, next) => {
 
   try {
     const data = await Inspection.report({ shift, UserId, reportDate });
+    const baseUrl = `${req.protocol}://${req.get("host")}`;
     const payload = {
+      baseUrl,
       data,
       reportDate,
       shiftDetail,
