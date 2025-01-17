@@ -154,7 +154,7 @@ exports.generatePdf = async (req, res, next) => {
 
     let user = data[0].User;
 
-    if (UserId) {
+    if (UserId && UserId != "undefined") {
       user = await User.findByPk(UserId);
     }
 

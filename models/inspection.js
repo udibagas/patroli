@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
 
     static report({ shift, reportDate, UserId }) {
       const condition = { shift, reportDate };
-      if (UserId) condition.UserId = UserId;
+      if (UserId && UserId !== "undefined") condition.UserId = UserId;
 
       return this.findAll({
         where: condition,
