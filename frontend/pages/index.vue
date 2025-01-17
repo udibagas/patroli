@@ -44,7 +44,7 @@
 
     <el-table-column label="Shift" prop="shift" width="120px" />
 
-    <el-table-column label="Waktu" width="150px">
+    <el-table-column label="Waktu" width="170px">
       <template #default="{ row }">
         {{ moment(row.createdAt).format("DD-MMM-YYYY HH:mm") }}
       </template>
