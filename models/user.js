@@ -22,14 +22,6 @@ module.exports = (sequelize, DataTypes) => {
       const { id, name, role } = this;
       return sign({ id, name, role }, process.env.JWT_SECRET);
     }
-
-    toJSON() {
-      return {
-        id: this.id,
-        name: this.name,
-        role: this.role,
-      };
-    }
   }
 
   User.init(
