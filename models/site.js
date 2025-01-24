@@ -5,6 +5,9 @@ module.exports = (sequelize, DataTypes) => {
   class Site extends Model {
     static associate(models) {
       Site.hasMany(models.Station);
+      Site.hasHook(models.Inspection);
+      Site.hasHook(models.InspectionImage);
+      Site.hasHook(models.User);
     }
   }
 
