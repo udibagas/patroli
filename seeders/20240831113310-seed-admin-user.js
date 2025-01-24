@@ -7,8 +7,12 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert("Users", [
       {
+        name: "Super Admin",
+        password: hashSync("superadmin123", 10),
+        role: "superadmin",
+      },
+      {
         name: "Admin",
-        email: "admin@mail.com",
         password: hashSync("admin123", 10),
         role: "admin",
       },
