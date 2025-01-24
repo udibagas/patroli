@@ -32,7 +32,7 @@ exports.create = async (req, res, next) => {
       for (const file of images) {
         const { path, originalname } = file;
         await InspectionImage.create({
-          path: path.split("public/")[1],
+          path: path.split("public/")[1], // kalau windows harus disesuaikan
           name: originalname,
           InspectionId: inspection.id,
         });
@@ -124,11 +124,7 @@ exports.remove = async (req, res, next) => {
 };
 
 exports.generatePdf = async (req, res, next) => {
-  const {
-    shift,
-    UserId,
-    date: reportDate = moment().format("YYYY-MM-DD"),
-  } = req.query;
+  const { shift, date: reportDate = moment().format("YYYY-MM-DD") } = req.query;
 
   if (!shift || !reportDate) {
     return res.status(400).json({
@@ -152,12 +148,6 @@ exports.generatePdf = async (req, res, next) => {
   try {
     const data = await Inspection.report({ shift, UserId, reportDate });
 
-    let user = data[0].User;
-
-    if (UserId && UserId != "undefined") {
-      user = await User.findByPk(UserId);
-    }
-
     const baseUrl = `${req.protocol}://${req.get("host")}`;
     const payload = {
       baseUrl,
@@ -166,7 +156,6 @@ exports.generatePdf = async (req, res, next) => {
       shiftDetail,
       shiftStart,
       shiftEnd,
-      user,
     };
 
     // res.render("inspection", payload);
@@ -175,7 +164,7 @@ exports.generatePdf = async (req, res, next) => {
       if (err) throw err;
 
       res.pdfFromHTML({
-        filename: `laporan-patroli.pdf`,
+        filename: `laporan-patroli-${reportDate}-${shift.name}.pdf`,
         htmlContent: html,
         options: {
           format: "A4",
