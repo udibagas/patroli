@@ -37,7 +37,7 @@ const { request } = useApi();
 const { show } = defineProps(["show"]);
 const emit = defineEmits(["close"]);
 const errors = {};
-const form = ref({ name: user.value.name });
+const form = ref(user);
 
 function save() {
   request(`/api/users/${form.value.id}`, {

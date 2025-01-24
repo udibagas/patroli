@@ -6,6 +6,10 @@ module.exports = (sequelize, DataTypes) => {
       InspectionImage.belongsTo(models.Inspection);
       InspectionImage.belongsTo(models.Site);
     }
+
+    static deleteByPath(path) {
+      return this.destroy({ where: { path } });
+    }
   }
 
   InspectionImage.init(

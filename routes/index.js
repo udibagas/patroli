@@ -10,5 +10,6 @@ router.use("/areas", require("./areas"));
 router.use("/shifts", require("./shifts"));
 router.use("/inspection-templates", require("./inspection-templates"));
 router.use("/inspections", require("./inspections"));
+router.use("/captures", require("./captures"));
 
 module.exports = router;
