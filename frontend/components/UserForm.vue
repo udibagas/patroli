@@ -10,12 +10,8 @@
       label-position="left"
       @submit.native.prevent="form.id ? update(form.id, form) : create(form)"
     >
-      <el-form-item label="Name" :error="errors.name">
-        <el-input placeholder="Name" v-model="form.name"></el-input>
-      </el-form-item>
-
-      <el-form-item label="Email" :error="errors.email">
-        <el-input placeholder="Email" v-model="form.email"></el-input>
+      <el-form-item label="Username" :error="errors.name">
+        <el-input placeholder="Username" v-model="form.name"></el-input>
       </el-form-item>
 
       <el-form-item label="Password" :error="errors.password">

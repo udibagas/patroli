@@ -16,8 +16,7 @@
 
   <el-table stripe v-loading="loading" :data="data" class="border-t">
     <el-table-column type="index" label="#"></el-table-column>
-    <el-table-column label="Name" prop="name" />
-    <el-table-column label="Email" prop="email" />
+    <el-table-column label="Username" prop="name" />
     <el-table-column label="Role" prop="role" />
 
     <el-table-column
