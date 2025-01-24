@@ -31,19 +31,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: {
         type: DataTypes.STRING,
+        unique: { msg: "Nama sudah dipakai" },
         allowNull: false,
         validate: {
           notNull: { msg: "Nama harus diisi" },
           notEmpty: { msg: "Nama harus diisi" },
-        },
-      },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: { msg: "Email sudah dipakai" },
-        validate: {
-          notNull: { msg: "Email harus diisi" },
-          notEmpty: { msg: "Email harus diisi" },
         },
       },
       password: {
