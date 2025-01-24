@@ -7,3 +7,11 @@ exports.isAdmin = (req, res, next) => {
 
   next();
 };
+
+exports.isSuperAdmin = (req, res, next) => {
+  if (req.user.role !== "superadmin") {
+    return next(new ForbiddenError());
+  }
+
+  next();
+};

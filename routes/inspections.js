@@ -6,12 +6,11 @@ const {
   show,
   update,
   remove,
-  generatePdf,
 } = require("../controllers/inspections.controller");
-const { isAdmin } = require("../middlewares/isAdmin.middleware");
 const router = require("express").Router();
 
 const multer = require("multer");
+const { hasRole } = require("../middlewares/hasRole.middleware");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -37,7 +36,7 @@ router
   .post("/", upload.fields([{ name: "images[]", maxCount: 10 }]), create)
   .get("/", index)
   .get("/:id", show)
-  .put("/:id", isAdmin, update)
-  .delete("/:id", isAdmin, remove);
+  .put("/:id", hasRole("admin", "superadmin"), update)
+  .delete("/:id", hasRole("admin", "superadmin"), remove);
 
 module.exports = router;

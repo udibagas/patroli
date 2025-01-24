@@ -4,13 +4,13 @@ const {
   update,
   remove,
 } = require("../controllers/sites.controller");
-const { isAdmin } = require("../middlewares/isAdmin.middleware");
+const { hasRole } = require("../middlewares/hasRole.middleware");
 const router = require("express").Router();
 
 router
-  .post("/", isAdmin, create)
+  .post("/", hasRole("superadmin"), create)
   .get("/", index)
-  .put("/:id", isAdmin, update)
-  .delete("/:id", isAdmin, remove);
+  .put("/:id", hasRole("superadmin"), update)
+  .delete("/:id", hasRole("superadmin"), remove);
 
 module.exports = router;
