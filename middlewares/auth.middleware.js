@@ -14,8 +14,8 @@ exports.auth = async (req, res, next) => {
     }
 
     if (!token) throw new UnauthenticatedError();
-    const { email } = verify(token, process.env.JWT_SECRET);
-    const user = await User.findOne({ where: { email } });
+    const { id } = verify(token, process.env.JWT_SECRET);
+    const user = await User.findByPk(id);
     if (!user) throw new UnauthenticatedError("Unregistered user");
     req.user = user;
   } catch (error) {

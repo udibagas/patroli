@@ -17,13 +17,16 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     generateToken() {
-      const { id, name, email, role } = this;
-      return sign({ id, name, email, role }, process.env.JWT_SECRET);
+      const { id, name, role } = this;
+      return sign({ id, name, role }, process.env.JWT_SECRET);
     }
 
     toJSON() {
-      const { id, name, email, role } = this;
-      return { id, name, email, role };
+      return {
+        id: this.id,
+        name: this.name,
+        role: this.role,
+      };
     }
   }
 
