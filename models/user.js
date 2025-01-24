@@ -10,6 +10,8 @@ module.exports = (sequelize, DataTypes) => {
         as: "inspections",
         foreignKey: "UserId",
       });
+
+      User.belongsTo(models.Site);
     }
 
     verify(password) {
@@ -50,6 +52,14 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       role: DataTypes.STRING,
+      SiteId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: { msg: "Site harus diisi" },
+          notEmpty: { msg: "Site harus diisi" },
+        },
+      },
     },
     {
       sequelize,
