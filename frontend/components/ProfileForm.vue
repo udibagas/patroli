@@ -1,22 +1,14 @@
 <template>
   <el-dialog
     :model-value="show"
-    width="500px"
+    width="350px"
     title="PROFIL"
     :close-on-click-modal="false"
     :before-close="() => emit('close')"
   >
-    <el-form
-      label-width="100px"
-      label-position="left"
-      @submit.native.prevent="save"
-    >
+    <el-form label-position="top" @submit.native.prevent="save">
       <el-form-item label="Name" :error="errors.name">
         <el-input placeholder="Name" v-model="form.name"></el-input>
-      </el-form-item>
-
-      <el-form-item label="Email" :error="errors.email">
-        <el-input placeholder="Email" v-model="form.email"></el-input>
       </el-form-item>
 
       <el-form-item label="Password" :error="errors.password">
@@ -45,7 +37,7 @@ const { request } = useApi();
 const { show } = defineProps(["show"]);
 const emit = defineEmits(["close"]);
 const errors = {};
-const form = ref(user);
+const form = ref({ name: user.value.name });
 
 function save() {
   request(`/api/users/${form.value.id}`, {

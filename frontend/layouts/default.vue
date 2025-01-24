@@ -70,31 +70,43 @@ const navigationList = [
     path: "/",
     label: "Laporan",
     icon: ElIconDocumentCopy,
+    visible: true,
   },
   {
     path: "/sites",
     label: "Sites",
     icon: ElIconOfficeBuilding,
+    visible: user.value?.role == "superadmin",
   },
   {
     path: "/stations",
     label: "Station & Area",
     icon: ElIconLocation,
+    visible: ["admin", "superadmin"].includes(user.value?.role),
   },
   {
     path: "/shifts",
     label: "Shift",
     icon: ElIconClock,
+    visible: user.value?.role === "superadmin",
   },
   {
     path: "/inspection-templates",
     label: "Template Inspeksi",
     icon: ElIconDocument,
+    visible: ["admin", "superadmin"].includes(user.value?.role),
   },
   {
     path: "/users",
     label: "User",
     icon: ElIconUser,
+    visible: ["admin", "superadmin"].includes(user.value?.role),
+  },
+  {
+    path: "/captures",
+    label: "Captures",
+    icon: ElIconCamera,
+    visible: user.value?.role === "superadmin",
   },
 ];
 
