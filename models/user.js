@@ -19,8 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     generateToken() {
-      const { id, name, role } = this;
-      return sign({ id, name, role }, process.env.JWT_SECRET);
+      const { id, name, role, SiteId } = this;
+      return sign({ id, name, role, SiteId }, process.env.JWT_SECRET);
     }
   }
 
