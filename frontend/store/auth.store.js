@@ -6,6 +6,7 @@ export function setUser(value) {
   user.value = value;
 }
 
-export function getProfile() {
-  request("/api/me").then((res) => setUser(res));
+export async function getProfile() {
+  const res = await request("/api/me");
+  return setUser(res);
 }

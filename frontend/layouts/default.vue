@@ -65,50 +65,52 @@ import { user, getProfile } from "~/store/auth.store";
 const { request } = useApi();
 const showProfileForm = ref(false);
 
+await getProfile();
+
 const navigationList = [
   {
     path: "/",
     label: "Laporan",
     icon: ElIconDocumentCopy,
-    visible: true,
+    visible: ["user", "admin", "superadmin"],
   },
   {
     path: "/sites",
     label: "Sites",
     icon: ElIconOfficeBuilding,
-    visible: user.value?.role == "superadmin",
+    visible: ["superadmin"],
   },
   {
     path: "/stations",
     label: "Station & Area",
     icon: ElIconLocation,
-    visible: ["admin", "superadmin"].includes(user.value?.role),
+    visible: ["admin", "superadmin"],
   },
   {
     path: "/shifts",
     label: "Shift",
     icon: ElIconClock,
-    visible: user.value?.role === "superadmin",
+    visible: ["superadmin"],
   },
   {
     path: "/inspection-templates",
     label: "Template Inspeksi",
     icon: ElIconDocument,
-    visible: ["admin", "superadmin"].includes(user.value?.role),
+    visible: ["admin", "superadmin"],
   },
   {
     path: "/users",
     label: "User",
     icon: ElIconUser,
-    visible: ["admin", "superadmin"].includes(user.value?.role),
+    visible: ["admin", "superadmin"],
   },
   {
     path: "/captures",
     label: "Captures",
     icon: ElIconCamera,
-    visible: user.value?.role === "superadmin",
+    visible: ["superadmin"],
   },
-];
+].filter((n) => n.visible.includes(user.value.role));
 
 async function logout() {
   try {
@@ -124,8 +126,4 @@ async function logout() {
     console.log(error);
   }
 }
-
-onBeforeMount(() => {
-  getProfile();
-});
 </script>

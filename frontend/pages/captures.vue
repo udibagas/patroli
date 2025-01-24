@@ -49,7 +49,6 @@ const props = ref({ label: "label", isLeaf: "isLeaf" });
 const treeRef = ref("");
 
 const loadNode = (node, resolve) => {
-  console.log(node);
   const params = {
     directory: node.data == false ? "public/uploads" : node.data.path,
   };
@@ -80,7 +79,6 @@ const deleteSnapshot = () => {
 };
 
 const onNodeClick = ({ isFile, url }) => {
-  console.log(isFile, url);
   if (isFile) {
     imageURL.value = url;
   }
