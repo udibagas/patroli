@@ -32,18 +32,6 @@
           </el-option>
         </el-select>
       </el-form-item>
-
-      <el-form-item label="User" :error="errors.UserId">
-        <el-select v-model="form.UserId" placeholder="User">
-          <el-option
-            v-for="user in users"
-            :value="user.id"
-            :label="user.name"
-            :key="user.id"
-          >
-          </el-option>
-        </el-select>
-      </el-form-item>
     </el-form>
 
     <template #footer>
@@ -63,14 +51,10 @@
 
 <script setup>
 import { form, errors, showForm, closeForm } from "~/store/form.store";
-const { data: shifts, getAll, request } = useApi("/api/shifts");
-const users = ref([]);
+const { data: shifts, getAll } = useApi("/api/shifts");
 
 onMounted(() => {
   getAll();
-  request("/api/users").then((res) => {
-    users.value = res.filter((x) => x.role === "user");
-  });
 });
 
 const generateReport = (data) => {
