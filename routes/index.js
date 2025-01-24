@@ -3,6 +3,7 @@ const { auth } = require("../middlewares/auth.middleware");
 
 router.use(require("./auth"));
 router.use(auth);
+router.use("/sites", require("./sites"));
 router.use("/stations", require("./stations"));
 router.use("/users", require("./users"));
 router.use("/areas", require("./areas"));
