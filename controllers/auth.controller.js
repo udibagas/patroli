@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Site } = require("../models");
 const UnauthenticatedError = require("../errors/UnauthenticatedError");
 
 exports.register = async (req, res, next) => {
@@ -14,7 +14,11 @@ exports.login = async (req, res, next) => {
   const { name, password, role = "user" } = req.body;
 
   try {
-    const user = await User.findOne({ where: { name, role } });
+    const user = await User.findOne({
+      where: { name, role },
+      include: Site,
+    });
+
     if (!user) throw new UnauthenticatedError("Username atau password salah");
     if (!user.verify(password)) {
       throw new UnauthenticatedError("Username atau password salah");
