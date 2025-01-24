@@ -7,8 +7,8 @@
 
     <el-form-item>
       <el-input
-        v-model="email"
-        placeholder="Email/Username"
+        v-model="name"
+        placeholder="Username"
         :prefix-icon="ElIconUser"
       ></el-input>
     </el-form-item>
@@ -33,17 +33,17 @@
 <script setup>
 import { setUser } from "../store/auth.store";
 definePageMeta({ layout: "login" });
-const email = ref();
+const name = ref();
 const password = ref();
 const year = new Date().getFullYear();
 const { request } = useApi();
 
 const login = async () => {
-  if (!email.value || !password.value) return;
+  if (!name.value || !password.value) return;
 
   request("/api/login", {
     method: "POST",
-    body: { email: email.value, password: password.value, role: "admin" },
+    body: { name: name.value, password: password.value },
   }).then((res) => {
     setUser(res.user);
     return navigateTo("/");
