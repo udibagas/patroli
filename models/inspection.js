@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       Inspection.belongsTo(models.User);
       Inspection.belongsTo(models.Station);
       Inspection.hasMany(models.InspectionImage);
+      Inspection.belongsTo(models.Site);
     }
 
     static report({ shift, reportDate }) {
@@ -57,6 +58,14 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notNull: { msg: "Lokasi harus diisi" },
           notEmpty: { msg: "Lokasi harus diisi" },
+        },
+      },
+      SiteId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: { msg: "Site harus diisi" },
+          notEmpty: { msg: "Site harus diisi" },
         },
       },
       result: {
