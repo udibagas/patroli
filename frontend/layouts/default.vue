@@ -2,7 +2,7 @@
   <el-container>
     <el-header class="bg-[#07395A] flex items-center justify-between h-[60px]">
       <div class="text-white text-xl">
-        Sistem Patroli PT. Ungaran Sari Garment
+        Sistem Patroli PT. Ungaran Sari Garments
       </div>
 
       <div class="flex items-center gap-3">
@@ -72,15 +72,15 @@ const navigationList = [
     icon: ElIconDocumentCopy,
   },
   {
+    path: "/sites",
+    label: "Sites",
+    icon: ElIconOfficeBuilding,
+  },
+  {
     path: "/stations",
     label: "Station & Area",
     icon: ElIconLocation,
   },
-  // {
-  //   path: "/areas",
-  //   label: "Area",
-  //   icon: ElIconMenu,
-  // },
   {
     path: "/shifts",
     label: "Shift",
