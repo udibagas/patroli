@@ -12,17 +12,14 @@ const { auth } = require("./middlewares/auth.middleware");
 const { generatePdf } = require("./controllers/inspections.controller");
 const app = express();
 
+const { ALLOWED_ORIGIN = "" } = process.env;
+
 app.set("view engine", "ejs");
 app.use(pdf);
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:4000",
-      "http://localhost",
-      "http://192.168.1.10:3000",
-      "http://10.10.101.194:3000",
-    ],
+    origin: ALLOWED_ORIGIN.split(","),
     credentials: true,
   })
 );
