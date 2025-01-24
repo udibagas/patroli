@@ -11,11 +11,11 @@ exports.register = async (req, res, next) => {
 };
 
 exports.login = async (req, res, next) => {
-  const { name, password, role = "user" } = req.body;
+  const { name, password } = req.body;
 
   try {
     const user = await User.findOne({
-      where: { name, role },
+      where: { name },
       include: Site,
     });
 

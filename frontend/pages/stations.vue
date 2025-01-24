@@ -1,14 +1,34 @@
 <template>
   <el-page-header @back="goBack" content="Station & Area">
     <template #extra>
-      <el-button
-        size="small"
-        :icon="ElIconPlus"
-        type="primary"
-        @click="openForm({ Areas: [] })"
-      >
-        TAMBAH STATION
-      </el-button>
+      <div class="flex">
+        <el-select
+          v-model="SiteId"
+          placeholder="Pilih Site"
+          size="small"
+          style="width: 200px"
+          class="mr-2"
+          @change="(v) => getAll({ SiteId: v })"
+        >
+          <el-option value="" label="Semua"></el-option>
+          <el-option
+            v-for="site in sites"
+            :value="site.id"
+            :label="site.name"
+            :key="site.id"
+          >
+          </el-option>
+        </el-select>
+
+        <el-button
+          size="small"
+          :icon="ElIconPlus"
+          type="primary"
+          @click="openForm({ Areas: [] })"
+        >
+          TAMBAH STATION
+        </el-button>
+      </div>
     </template>
   </el-page-header>
 
@@ -22,7 +42,8 @@
       align="center"
       header-align="center"
     />
-    <el-table-column label="Nama" prop="name" />
+    <el-table-column label="Site" prop="Site.name" width="180" />
+    <el-table-column label="Station" prop="name" />
     <el-table-column label="Area">
       <template #default="{ row }">
         <ul>
@@ -75,9 +96,14 @@
 
 <script setup>
 import { openForm } from "~/store/form.store";
-const { getAll, remove, data, loading } = useApi("/api/stations");
+const { getAll, remove, data, loading, request } = useApi("/api/stations");
+const sites = ref([]);
+const SiteId = ref(null);
 
 onMounted(() => {
-  getAll();
+  getAll({ SiteId: SiteId.value });
+  request("/api/sites").then((data) => {
+    sites.value = data;
+  });
 });
 </script>

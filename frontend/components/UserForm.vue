@@ -29,7 +29,7 @@
       <el-form-item label="Role" :error="errors.role">
         <el-select v-model="form.role" placeholder="Role">
           <el-option
-            v-for="(role, i) in ['user', 'admin']"
+            v-for="(role, i) in ['user', 'admin', 'superadmin']"
             :value="role"
             :label="role"
             :key="i"

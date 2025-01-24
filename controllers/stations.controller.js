@@ -1,4 +1,4 @@
-const { Station, Area, sequelize } = require("../models");
+const { Site, Station, Area, sequelize } = require("../models");
 const NotFoundError = require("../errors/NotfoundError");
 
 exports.create = async (req, res, next) => {
@@ -20,11 +20,18 @@ exports.create = async (req, res, next) => {
 };
 
 exports.index = async (req, res, next) => {
+  const { SiteId } = req.query;
+  const options = {
+    include: [Site, Area],
+    order: [["code", "asc"]],
+  };
+
+  if (SiteId) {
+    options.where = { SiteId };
+  }
+
   try {
-    const stations = await Station.findAll({
-      include: Area,
-      order: [["code", "asc"]],
-    });
+    const stations = await Station.findAll(options);
     res.status(200).json(stations);
   } catch (error) {
     next(error);
