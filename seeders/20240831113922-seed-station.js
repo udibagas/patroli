@@ -5,21 +5,25 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     const data = [
       {
+        SiteId: 1,
         code: "1",
         name: "Pos Induk dan sekitarnya",
         areas: ["Pos Induk dan sekitarnya", "Office", "Basement", "Poliklinik"],
       },
       {
+        SiteId: 1,
         code: "2",
         name: "Conference room",
         areas: ["Conference room", "Dress 1"],
       },
       {
+        SiteId: 1,
         code: "3",
         name: "Masjid dan sekitarnya",
         areas: ["Masjid", "Area sebelah barat", "Depan Shirt"],
       },
       {
+        SiteId: 1,
         code: "4",
         name: "Area timur dan belakang shirt",
         areas: [
@@ -32,6 +36,7 @@ module.exports = {
         ],
       },
       {
+        SiteId: 1,
         code: "5",
         name: "Store accessories",
         areas: [
@@ -42,6 +47,7 @@ module.exports = {
         ],
       },
       {
+        SiteId: 1,
         code: "6",
         name: "Dress 2 dan sekitarnya",
         areas: ["Dress 2 dan sekitarnya", "Kantin"],
