@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   class InspectionImage extends Model {
     static associate(models) {
       InspectionImage.belongsTo(models.Inspection);
+      InspectionImage.belongsTo(models.Site);
     }
   }
 
@@ -31,6 +32,14 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notNull: { msg: "Inspeksi harus diisi" },
           notNull: { msg: "Inspeksi harus diisi" },
+        },
+      },
+      SiteId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: { msg: "Site harus diisi" },
+          notNull: { msg: "Site harus diisi" },
         },
       },
     },
