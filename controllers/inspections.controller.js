@@ -10,11 +10,11 @@ const NotFoundError = require("../errors/NotfoundError");
 const moment = require("moment");
 
 exports.create = async (req, res, next) => {
-  const { id: UserId } = req.user;
+  const { id: UserId, SiteId } = req.user;
   const { location, result } = req.body;
 
   try {
-    const station = await Station.findByName(location);
+    const station = await Station.findByName(location); // todo: ini nanti formatnya beda karena bisa jadi nama station sama tapi site berbeda
 
     if (!station) {
       throw new NotFoundError("Station tidak ditemukan");
@@ -23,6 +23,7 @@ exports.create = async (req, res, next) => {
     const inspection = await Inspection.create({
       result,
       UserId,
+      SiteId,
       StationId: station.id,
     });
 
@@ -32,9 +33,10 @@ exports.create = async (req, res, next) => {
       for (const file of images) {
         const { path, originalname } = file;
         await InspectionImage.create({
+          SiteId,
+          InspectionId: inspection.id,
           path: path.split("public/")[1], // kalau windows harus disesuaikan
           name: originalname,
-          InspectionId: inspection.id,
         });
       }
     }
