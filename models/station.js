@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   class Station extends Model {
     static associate(models) {
       Station.hasMany(models.Area);
+      Station.belongsTo(models.Site);
     }
 
     static findByName(name) {
@@ -35,6 +36,14 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: { msg: "Nama harus diisi" },
           notNull: { msg: "Nama harus diisi" },
+        },
+      },
+      SiteId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: "Site harus diisi" },
+          notNull: { msg: "Site harus diisi" },
         },
       },
     },

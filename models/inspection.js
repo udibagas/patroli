@@ -9,12 +9,10 @@ module.exports = (sequelize, DataTypes) => {
       Inspection.hasMany(models.InspectionImage);
     }
 
-    static report({ shift, reportDate, UserId }) {
-      const condition = { shift, reportDate };
-      if (UserId && UserId !== "undefined") condition.UserId = UserId;
-
+    static report({ shift, reportDate }) {
       return this.findAll({
-        where: condition,
+        where: { shift, reportDate },
+        order: [["createdAt", "asc"]],
         include: [
           {
             model: sequelize.models.User,
