@@ -5,6 +5,7 @@ const {
   User,
   Area,
   Shift,
+  Site,
   sequelize,
 } = require("../models");
 const NotFoundError = require("../errors/NotfoundError");
@@ -68,6 +69,10 @@ exports.index = async (req, res, next) => {
     distinct: true,
     order: [["updatedAt", "desc"]],
     include: [
+      {
+        model: Site,
+        attributes: ["name"],
+      },
       {
         model: User,
         attributes: ["name"],
