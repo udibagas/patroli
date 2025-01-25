@@ -15,6 +15,7 @@ module.exports = {
         name: "Admin",
         password: hashSync("admin123", 10),
         role: "admin",
+        SiteId: 1,
       },
     ]);
   },

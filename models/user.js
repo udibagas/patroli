@@ -37,11 +37,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       password: {
         type: DataTypes.STRING,
-        // allowNull: false,
-        // validate: {
-        //   notNull: { msg: "Password harus diisi" },
-        //   notEmpty: { msg: "Password harus diisi" },
-        // },
+        validate: {
+          hasPassword(value) {
+            if (!this.id && !value) {
+              throw new Error("Password harus diisi");
+            }
+          },
+        },
       },
       role: DataTypes.STRING,
       SiteId: {
@@ -57,6 +59,11 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: "User",
       timestamps: false,
+      defaultScope: {
+        attributes: {
+          exclude: ["password"],
+        },
+      },
     }
   );
 

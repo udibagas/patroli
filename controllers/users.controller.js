@@ -8,6 +8,8 @@ exports.create = async (req, res, next) => {
     SiteId = req.user.SiteId;
   }
 
+  console.log(req.user);
+
   try {
     const user = await User.create({ ...req.body, SiteId });
     res.status(201).json(user);

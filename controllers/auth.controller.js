@@ -16,6 +16,7 @@ exports.login = async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: { name },
+      attributes: { include: ["password"] },
       include: Site,
     });
 

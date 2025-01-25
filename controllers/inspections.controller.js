@@ -51,6 +51,7 @@ exports.index = async (req, res, next) => {
   const page = parseInt(req.query.page) || 1; // Default to page 1 if not specified
   const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page if not specified
   const offset = (page - 1) * limit;
+  const { SiteId } = req.user;
 
   const options = {
     distinct: true,
@@ -77,7 +78,7 @@ exports.index = async (req, res, next) => {
     offset: offset,
   };
 
-  if (req.user.SiteId) {
+  if (SiteId) {
     options.where = { SiteId };
   }
 
