@@ -50,7 +50,7 @@ const treeRef = ref("");
 
 const loadNode = (node, resolve) => {
   const params = {
-    directory: node.data == false ? "public/uploads" : node.data.path,
+    directory: node.data == false ? "uploads" : node.data.path,
   };
 
   request("/api/captures", { params }).then((response) => {
@@ -102,6 +102,8 @@ const refresh = () => {
 
 .img-container {
   flex-grow: 1;
-  margin-left: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
