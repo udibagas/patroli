@@ -48,6 +48,10 @@ exports.create = async (req, res, next) => {
 };
 
 exports.index = async (req, res, next) => {
+  const page = parseInt(req.query.page) || 1; // Default to page 1 if not specified
+  const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page if not specified
+  const offset = (page - 1) * limit;
+
   const options = {
     distinct: true,
     order: [["updatedAt", "desc"]],
@@ -78,10 +82,6 @@ exports.index = async (req, res, next) => {
   }
 
   try {
-    const page = parseInt(req.query.page) || 1; // Default to page 1 if not specified
-    const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page if not specified
-    const offset = (page - 1) * limit;
-
     const { count: total, rows } = await Inspection.findAndCountAll(options);
 
     res.status(200).json({
