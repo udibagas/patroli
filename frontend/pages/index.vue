@@ -36,6 +36,13 @@
       :index="objData.from"
     ></el-table-column>
 
+    <el-table-column
+      label="Site"
+      prop="Site.name"
+      width="120px"
+      v-if="user.role === 'superadmin'"
+    />
+
     <el-table-column label="Tanggal" width="120px">
       <template #default="{ row }">
         {{ moment(row.reportDate).format("DD-MMM-YYYY") }}
@@ -72,6 +79,10 @@
 
   <el-dialog v-model="dialogVisible" title="Record Details">
     <el-descriptions :column="1" border>
+      <el-descriptions-item label="Site" v-if="user.role === 'superadmin'">
+        {{ selectedRecord.Site.name }}
+      </el-descriptions-item>
+
       <el-descriptions-item label="Tanggal">
         {{ moment(selectedRecord.createdAt).format("DD-MMM-YYYY") }}
       </el-descriptions-item>
@@ -81,7 +92,11 @@
       </el-descriptions-item>
 
       <el-descriptions-item label="Jam">
-        {{ moment(selectedRecord.createdAt).format("HH:mm") }}
+        {{ moment(selectedRecord.createdAt).format("HH:mm") }} WIB
+      </el-descriptions-item>
+
+      <el-descriptions-item label="Petugas">
+        {{ selectedRecord.User.name }}
       </el-descriptions-item>
 
       <el-descriptions-item label="Station">
@@ -97,10 +112,6 @@
             {{ i + 1 }}. {{ r }}
           </li>
         </ul>
-      </el-descriptions-item>
-
-      <el-descriptions-item label="Petugas">
-        {{ selectedRecord.User.name }}
       </el-descriptions-item>
 
       <el-descriptions-item label="Keterangan">
@@ -135,6 +146,7 @@
 <script setup>
 import moment from "moment";
 import { openForm } from "~/store/form.store";
+import { user } from "~/store/auth.store";
 const { getAll, objData, loading } = useApi("/api/inspections");
 
 const dialogVisible = ref(false);
