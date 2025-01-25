@@ -37,11 +37,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notNull: { msg: "Password harus diisi" },
-          notEmpty: { msg: "Password harus diisi" },
-        },
+        // allowNull: false,
+        // validate: {
+        //   notNull: { msg: "Password harus diisi" },
+        //   notEmpty: { msg: "Password harus diisi" },
+        // },
       },
       role: DataTypes.STRING,
       SiteId: {

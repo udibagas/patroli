@@ -17,6 +17,11 @@
   <el-table stripe v-loading="loading" :data="data" class="border-t">
     <el-table-column type="index" label="#"></el-table-column>
     <el-table-column label="Username" prop="name" />
+    <el-table-column
+      label="Site"
+      prop="Site.name"
+      v-if="user.role === 'superadmin'"
+    />
     <el-table-column label="Role" prop="role" />
 
     <el-table-column
@@ -26,7 +31,7 @@
       fixed="right"
     >
       <template #header>
-        <el-button link @click="getData()" :icon="ElIconRefresh"> </el-button>
+        <el-button link @click="getAll()" :icon="ElIconRefresh"> </el-button>
       </template>
       <template #default="{ row }">
         <el-dropdown>
@@ -61,6 +66,7 @@
 
 <script setup>
 import { openForm } from "~/store/form.store";
+import { user } from "~/store/auth.store";
 const { getAll, remove, data, loading } = useApi("/api/users");
 
 onMounted(() => {
