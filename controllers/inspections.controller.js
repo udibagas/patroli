@@ -167,7 +167,7 @@ exports.generatePdf = async (req, res, next) => {
       shiftEnd,
     };
 
-    // res.render("inspection", payload);
+    //  res.render("inspection", payload);
 
     res.render("inspection", payload, (err, html) => {
       if (err) throw err;

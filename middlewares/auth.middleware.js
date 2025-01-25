@@ -3,14 +3,15 @@ const UnauthenticatedError = require("../errors/UnauthenticatedError");
 const { User, Site } = require("../models");
 
 exports.auth = async (req, res, next) => {
-  const { authorization } = req.headers;
+  let cookieToken = req.cookies.token;
+  let token = cookieToken;
 
   try {
-    if (!authorization) throw new UnauthenticatedError();
-    const [type, token] = authorization.split(" ");
-
-    if (type.toLowerCase() !== "bearer") {
-      throw new UnauthenticatedError("Invalid authentication type");
+    if (!token) {
+      const [type, bearerToken] = req.headers.authorization?.split(" ") ?? [];
+      if (type?.toLowerCase() === "bearer") {
+        token = bearerToken;
+      }
     }
 
     if (!token) throw new UnauthenticatedError();

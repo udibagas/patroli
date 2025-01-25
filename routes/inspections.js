@@ -6,6 +6,7 @@ const {
   show,
   update,
   remove,
+  generatePdf,
 } = require("../controllers/inspections.controller");
 const router = require("express").Router();
 
@@ -35,6 +36,7 @@ const upload = multer({ storage: storage });
 router
   .post("/", upload.fields([{ name: "images[]", maxCount: 10 }]), create)
   .get("/", index)
+  .get("/generatePdf", generatePdf)
   .get("/:id", show)
   .put("/:id", hasRole("admin", "superadmin"), update)
   .delete("/:id", hasRole("admin", "superadmin"), remove);
