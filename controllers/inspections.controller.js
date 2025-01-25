@@ -40,8 +40,8 @@ exports.create = async (req, res, next) => {
           await InspectionImage.create(
             {
               SiteId,
+              path,
               InspectionId: inspection.id,
-              path: path.split("public/")[1], // kalau windows harus disesuaikan
               name: originalname,
             },
             { transaction: t }
