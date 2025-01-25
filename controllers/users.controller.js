@@ -2,8 +2,14 @@ const { User, Site } = require("../models");
 const NotFoundError = require("../errors/NotfoundError");
 
 exports.create = async (req, res, next) => {
+  let { SiteId } = req.body; // set by superadmin
+
+  if (req.user.role === "admin") {
+    SiteId = req.user.SiteId;
+  }
+
   try {
-    const user = await User.create(req.body);
+    const user = await User.create({ ...req.body, SiteId });
     res.status(201).json(user);
   } catch (error) {
     next(error);
@@ -46,6 +52,7 @@ exports.update = async (req, res, next) => {
 };
 
 exports.remove = async (req, res, next) => {
+  // TODO: pastikan ga bisa hapus user yg bukan dari site yg sama
   const { id } = req.params;
   try {
     const user = await User.findByPk(id);
