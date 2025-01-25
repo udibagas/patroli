@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
     const site = await Site.findByPk(req.user.SiteId);
 
     const siteName = site
-      ? site.name.replace(/\s/g, "-").toLowerCase()
+      ? site.name.replace(/\s/g, "-").toUpperCase()
       : "unknown";
 
     const now = new Date();
