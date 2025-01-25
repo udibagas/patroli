@@ -1,4 +1,8 @@
 const router = require("express").Router();
+const {
+  index: getInspectionTemplates,
+} = require("../controllers/inspection-templates.controller");
+const { index: getShifts } = require("../controllers/shifts.controller");
 const { auth } = require("../middlewares/auth.middleware");
 const { hasRole } = require("../middlewares/hasRole.middleware");
 
@@ -7,6 +11,8 @@ router.use(auth);
 
 // data inspection bisa dilihat oleh semua role
 router.use("/inspections", require("./inspections"));
+router.get("/shifts", getShifts);
+router.get("inspection-templates", getInspectionTemplates);
 
 // site di maintain oleh superadmin
 router.use("/sites", hasRole("superadmin"), require("./sites"));
