@@ -133,6 +133,7 @@ exports.remove = async (req, res, next) => {
 
 exports.generatePdf = async (req, res, next) => {
   const { shift, date: reportDate = moment().format("YYYY-MM-DD") } = req.query;
+  const { SiteId } = req.user;
 
   if (!shift || !reportDate) {
     return res.status(400).json({
@@ -154,8 +155,7 @@ exports.generatePdf = async (req, res, next) => {
   const shiftEnd = await shiftDetail.getLateEnd();
 
   try {
-    const data = await Inspection.report({ shift, UserId, reportDate });
-
+    const data = await Inspection.report({ SiteId, shift, reportDate });
     const baseUrl = `${req.protocol}://${req.get("host")}`;
     const payload = {
       baseUrl,

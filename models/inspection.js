@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
       Inspection.belongsTo(models.Site);
     }
 
-    static report({ shift, reportDate }) {
-      return this.findAll({
+    static report({ SiteId, shift, reportDate }) {
+      const options = {
         where: { shift, reportDate },
         order: [["createdAt", "asc"]],
         include: [
@@ -32,7 +32,13 @@ module.exports = (sequelize, DataTypes) => {
             attributes: ["path"],
           },
         ],
-      });
+      };
+
+      if (SiteId) {
+        options.where.SiteId = SiteId;
+      }
+
+      return this.findAll(options);
     }
   }
 
