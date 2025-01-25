@@ -2,9 +2,19 @@ const { Site, Station, Area, sequelize } = require("../models");
 const NotFoundError = require("../errors/NotfoundError");
 
 exports.create = async (req, res, next) => {
+  let { SiteId } = req.body; // set by superadmin
+
+  if (req.user.role == "admin") {
+    SiteId = req.user.SiteId;
+  }
+
   try {
     const station = await sequelize.transaction(async (t) => {
-      const station = await Station.create(req.body, { transaction: t });
+      const station = await Station.create(
+        { ...req.body, SiteId },
+        { transaction: t }
+      );
+
       await Area.bulkCreate(
         req.body.Areas.map(({ name }) => ({ StationId: station.id, name })),
         { transaction: t }
@@ -20,7 +30,12 @@ exports.create = async (req, res, next) => {
 };
 
 exports.index = async (req, res, next) => {
-  const { SiteId } = req.query;
+  let { SiteId } = req.query; // set by superadmin
+
+  if (req.user.role === "admin") {
+    SiteId = req.user.SiteId;
+  }
+
   const options = {
     include: [Site, Area],
     order: [["code", "asc"]],

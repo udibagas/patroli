@@ -10,7 +10,11 @@
       label-position="left"
       @submit.native.prevent="form.id ? update(form.id, form) : create(form)"
     >
-      <el-form-item label="Site" :error="errors.role">
+      <el-form-item
+        label="Site"
+        :error="errors.SiteId"
+        v-if="user.role === 'superadmin'"
+      >
         <el-select v-model="form.SiteId" placeholder="Site">
           <el-option
             v-for="site in sites"
@@ -75,6 +79,7 @@
 </template>
 
 <script setup>
+import { user } from "~/store/auth.store";
 import { form, errors, showForm, closeForm } from "~/store/form.store";
 const { create, update, request } = useApi("/api/stations");
 const sites = ref([]);

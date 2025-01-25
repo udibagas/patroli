@@ -3,6 +3,7 @@ const {
   index: getInspectionTemplates,
 } = require("../controllers/inspection-templates.controller");
 const { index: getShifts } = require("../controllers/shifts.controller");
+const { index: getSites } = require("../controllers/sites.controller");
 const { auth } = require("../middlewares/auth.middleware");
 const { hasRole } = require("../middlewares/hasRole.middleware");
 
@@ -13,6 +14,7 @@ router.use(auth);
 router.use("/inspections", require("./inspections"));
 router.get("/shifts", getShifts);
 router.get("inspection-templates", getInspectionTemplates);
+router.get("/sites", getSites);
 
 // site di maintain oleh superadmin
 router.use("/sites", hasRole("superadmin"), require("./sites"));

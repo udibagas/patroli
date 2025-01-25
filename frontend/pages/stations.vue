@@ -3,6 +3,7 @@
     <template #extra>
       <div class="flex">
         <el-select
+          v-if="user.role === 'superadmin'"
           v-model="SiteId"
           placeholder="Pilih Site"
           size="small"
@@ -42,7 +43,14 @@
       align="center"
       header-align="center"
     />
-    <el-table-column label="Site" prop="Site.name" width="180" />
+
+    <el-table-column
+      v-if="user.role === 'superadmin'"
+      label="Site"
+      prop="Site.name"
+      width="180"
+    />
+
     <el-table-column label="Station" prop="name" />
     <el-table-column label="Area">
       <template #default="{ row }">
@@ -96,6 +104,7 @@
 
 <script setup>
 import { openForm } from "~/store/form.store";
+import { user } from "~/store/auth.store";
 const { getAll, remove, data, loading, request } = useApi("/api/stations");
 const sites = ref([]);
 const SiteId = ref(null);
