@@ -35,12 +35,16 @@ exports.index = (req, res) => {
 exports.destroy = (req, res) => {
   const { checkedNodes } = req.body;
 
-  checkedNodes.forEach(async (node) => {
-    if (node.isFile) {
-      fs.unlinkSync(node.path);
-      await InspectionImage.deleteByPath(node.path);
+  checkedNodes.forEach((node) => {
+    if (!node.isFile) {
+      fs.rmdir(node.path, { recursive: true }, (err) => {
+        if (err) console.error(err.message);
+      });
     } else {
-      fs.rmdirSync(node.path, { recursive: true });
+      fs.unlink(node.path, async (err) => {
+        if (err) console.error(err.message);
+        await InspectionImage.deleteByPath(node.path);
+      });
     }
   });
 
