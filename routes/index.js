@@ -13,7 +13,7 @@ router.use(auth);
 // data inspection bisa dilihat oleh semua role
 router.use("/inspections", require("./inspections"));
 router.get("/shifts", getShifts);
-router.get("inspection-templates", getInspectionTemplates);
+router.get("/inspection-templates", getInspectionTemplates);
 router.get("/sites", getSites);
 
 // site di maintain oleh superadmin
