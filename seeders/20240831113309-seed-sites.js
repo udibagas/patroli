@@ -6,7 +6,7 @@ module.exports = {
     await queryInterface.bulkInsert("Sites", [
       {
         code: "01",
-        name: "Head Office",
+        name: "UNGARAN",
       },
     ]);
   },
