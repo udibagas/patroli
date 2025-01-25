@@ -48,35 +48,41 @@ exports.create = async (req, res, next) => {
 };
 
 exports.index = async (req, res, next) => {
+  const options = {
+    distinct: true,
+    order: [["updatedAt", "desc"]],
+    include: [
+      {
+        model: User,
+        attributes: ["name"],
+      },
+      {
+        model: Station,
+        attributes: ["name"],
+        include: {
+          model: Area,
+          attributes: ["name"],
+        },
+      },
+      {
+        model: InspectionImage,
+        attributes: ["path"],
+      },
+    ],
+    limit: limit,
+    offset: offset,
+  };
+
+  if (req.user.SiteId) {
+    options.where = { SiteId };
+  }
+
   try {
     const page = parseInt(req.query.page) || 1; // Default to page 1 if not specified
     const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page if not specified
     const offset = (page - 1) * limit;
 
-    const { count: total, rows } = await Inspection.findAndCountAll({
-      distinct: true,
-      order: [["updatedAt", "desc"]],
-      include: [
-        {
-          model: User,
-          attributes: ["name"],
-        },
-        {
-          model: Station,
-          attributes: ["name"],
-          include: {
-            model: Area,
-            attributes: ["name"],
-          },
-        },
-        {
-          model: InspectionImage,
-          attributes: ["path"],
-        },
-      ],
-      limit: limit,
-      offset: offset,
-    });
+    const { count: total, rows } = await Inspection.findAndCountAll(options);
 
     res.status(200).json({
       total,
