@@ -98,7 +98,8 @@
           <tr>
             <th class="text-left">SHIFT</th>
             <td class="text-bold">
-              <%= shiftDetail.name %> (<%= shiftStart %> - <%= shiftEnd %>)
+              <%= shiftDetail.name %> (<%= shiftStart %> WIB - <%= shiftEnd %>
+              WIB)
             </td>
           </tr>
         </tbody>
@@ -130,10 +131,12 @@
               </ol>
             </td>
 
-            <td class="text-center">
+            <td class="text-center" style="white-space: nowrap">
               <%= el.createdAt.toLocaleString('id-ID', { timeStyle:
               'short'}).replaceAll('.', ':') %> WIB
             </td>
+
+            <td><%= el.User.name %></td>
 
             <td>
               <ul>
