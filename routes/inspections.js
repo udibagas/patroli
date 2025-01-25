@@ -1,5 +1,6 @@
 const { Site } = require("../models");
 const path = require("path");
+const moment = require("moment");
 const fs = require("fs");
 const router = require("express").Router();
 const multer = require("multer");
@@ -21,19 +22,15 @@ const storage = multer.diskStorage({
       ? site.name.replace(/\s/g, "-").toUpperCase()
       : "unknown";
 
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, "0");
-    const day = String(now.getDate()).padStart(2, "0");
-
-    const uploadPath = `uploads/${siteName}/${year}/${month}/${day}`;
-
+    const ymd = moment().format("YYYY/MM/DD");
+    const uploadPath = `uploads/${siteName}/${ymd}`;
     fs.mkdirSync(uploadPath, { recursive: true });
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
+    const ymdhis = moment().format("YYYYMMDDHHmmss");
     const ext = path.extname(file.originalname);
-    cb(null, Date.now() + ext);
+    cb(null, ymdhis + ext);
   },
 });
 
