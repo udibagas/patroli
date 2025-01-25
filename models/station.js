@@ -8,14 +8,20 @@ module.exports = (sequelize, DataTypes) => {
       Station.belongsTo(models.Site);
     }
 
-    static findByName(name) {
-      return Station.findOne({
+    static findByName(name, SiteId) {
+      const options = {
         where: {
           name: {
             [Op.iLike]: `${name}%`,
           },
         },
-      });
+      };
+
+      if (SiteId) {
+        options.where.SiteId = SiteId;
+      }
+
+      return Station.findOne(options);
     }
   }
 

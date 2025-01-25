@@ -14,7 +14,7 @@ exports.create = async (req, res, next) => {
   const { location, result } = req.body;
 
   try {
-    const station = await Station.findByName(location); // todo: ini nanti formatnya beda karena bisa jadi nama station sama tapi site berbeda
+    const station = await Station.findByName(location, SiteId);
 
     if (!station) {
       throw new NotFoundError("Station tidak ditemukan");
