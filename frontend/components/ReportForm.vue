@@ -10,6 +10,22 @@
       label-position="left"
       @submit.native.prevent="generateReport(form)"
     >
+      <el-form-item
+        label="Site"
+        :error="errors.SiteId"
+        v-if="user.role === 'superadmin'"
+      >
+        <el-select v-model="form.SiteId" placeholder="Site">
+          <el-option
+            v-for="site in sites"
+            :value="site.id"
+            :label="site.name"
+            :key="site.id"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
+
       <el-form-item label="Tanggal" :error="errors.date">
         <el-date-picker
           v-model="form.date"
@@ -51,16 +67,21 @@
 
 <script setup>
 import { form, errors, showForm, closeForm } from "~/store/form.store";
-const { data: shifts, getAll } = useApi("/api/shifts");
+import { user } from "~/store/auth.store";
+const { data: shifts, getAll, request } = useApi("/api/shifts");
+const sites = ref([]);
 
 onMounted(() => {
   getAll();
+  request("/api/sites").then((data) => {
+    sites.value = data;
+  });
 });
 
 const generateReport = (data) => {
   closeForm();
   window.open(
-    `/api/inspections/generatePdf?date=${data.date}&shift=${data.shift}&UserId=${data.UserId}`,
+    `/api/inspections/generatePdf?date=${data.date}&shift=${data.shift}&SiteId=${data.SiteId}`,
     "_blank"
   );
 };

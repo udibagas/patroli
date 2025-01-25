@@ -150,14 +150,19 @@ exports.remove = async (req, res, next) => {
 
 exports.generatePdf = async (req, res, next) => {
   const { shift, date: reportDate = moment().format("YYYY-MM-DD") } = req.query;
-  const { SiteId } = req.user;
+  let { SiteId } = req.user; // by default, use the SiteId from the logged in user
 
-  if (!shift || !reportDate) {
+  if (req.user.role === "superadmin") {
+    SiteId = req.query.SiteId;
+  }
+
+  if (!shift || !reportDate || !SiteId) {
     return res.status(400).json({
       message: "Data tidak lengkap",
     });
   }
 
+  const site = await Site.findByPk(SiteId);
   const shiftDetail = await Shift.findByName(shift);
 
   if (!shiftDetail) {
@@ -174,8 +179,10 @@ exports.generatePdf = async (req, res, next) => {
   try {
     const data = await Inspection.report({ SiteId, shift, reportDate });
     const baseUrl = `${req.protocol}://${req.get("host")}`;
+
     const payload = {
       baseUrl,
+      site,
       data,
       reportDate,
       shiftDetail,
