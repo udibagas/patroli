@@ -1,12 +1,16 @@
 <template>
   <el-dialog
     :model-value="show"
-    width="350px"
+    width="400px"
     title="PROFIL"
     :close-on-click-modal="false"
     :before-close="() => emit('close')"
   >
-    <el-form label-position="top" @submit.native.prevent="save">
+    <el-form
+      label-position="left"
+      label-width="120"
+      @submit.native.prevent="save"
+    >
       <el-form-item label="Name" :error="errors.name">
         <el-input placeholder="Name" v-model="form.name"></el-input>
       </el-form-item>
@@ -50,6 +54,7 @@ function save() {
       type: "success",
       showClose: true,
     });
+    emit("close");
   });
 }
 </script>
