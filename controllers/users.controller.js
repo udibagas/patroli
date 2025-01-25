@@ -41,8 +41,15 @@ exports.index = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   const { id } = req.params;
+  const { SiteId } = req.user;
+  const options = {};
+
+  if (SiteId) {
+    options.where = { SiteId };
+  }
+
   try {
-    const user = await User.findByPk(id);
+    const user = await User.findByPk(id, options);
     if (!user) throw new NotFoundError();
     await user.update(req.body);
     await user.reload();
@@ -53,10 +60,17 @@ exports.update = async (req, res, next) => {
 };
 
 exports.remove = async (req, res, next) => {
-  // TODO: pastikan ga bisa hapus user yg bukan dari site yg sama
   const { id } = req.params;
+  const options = {};
+
+  if (req.user.role === "admin") {
+    options.where = {
+      SiteId: req.user.SiteId,
+    };
+  }
+
   try {
-    const user = await User.findByPk(id);
+    const user = await User.findByPk(id, options);
     if (!user) throw new NotFoundError();
     await user.destroy();
     res.status(200).json({ message: "Data telah dihapus" });
