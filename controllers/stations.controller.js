@@ -55,8 +55,15 @@ exports.index = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   const { id } = req.params;
+  const options = {};
+
+  // admin cuma boleh update data di site nya
+  if (req.user.role === "admin") {
+    options.where = { SiteId: req.user.SiteId };
+  }
+
   try {
-    const station = await Station.findByPk(id);
+    const station = await Station.findByPk(id, options);
     if (!station) throw new NotFoundError();
     await sequelize.transaction(async (t) => {
       await Area.destroy({ where: { StationId: id }, transaction: t });
@@ -76,8 +83,15 @@ exports.update = async (req, res, next) => {
 
 exports.remove = async (req, res, next) => {
   const { id } = req.params;
+  const options = {};
+
+  // admin cuma boleh hapus data di site nya
+  if (req.user.role === "admin") {
+    options.where = { SiteId: req.user.SiteId };
+  }
+
   try {
-    const station = await Station.findByPk(id);
+    const station = await Station.findByPk(id, options);
     if (!station) throw new NotFoundError();
     await station.destroy();
     res.status(200).json({ message: "Data telah dihapus" });
