@@ -5,6 +5,7 @@ const {
   User,
   Area,
   Shift,
+  sequelize,
 } = require("../models");
 const NotFoundError = require("../errors/NotfoundError");
 const moment = require("moment");
@@ -20,26 +21,36 @@ exports.create = async (req, res, next) => {
       throw new NotFoundError("Station tidak ditemukan");
     }
 
-    const inspection = await Inspection.create({
-      result,
-      UserId,
-      SiteId,
-      StationId: station.id,
-    });
-
-    const images = req.files["images[]"] || [];
-
-    if (images.length > 0) {
-      for (const file of images) {
-        const { path, originalname } = file;
-        await InspectionImage.create({
+    const inspection = await sequelize.transaction(async (t) => {
+      const inspection = await Inspection.create(
+        {
+          result,
+          UserId,
           SiteId,
-          InspectionId: inspection.id,
-          path: path.split("public/")[1], // kalau windows harus disesuaikan
-          name: originalname,
-        });
+          StationId: station.id,
+        },
+        { transaction: t }
+      );
+
+      const images = req.files["images[]"] || [];
+
+      if (images.length > 0) {
+        for (const file of images) {
+          const { path, originalname } = file;
+          await InspectionImage.create(
+            {
+              SiteId,
+              InspectionId: inspection.id,
+              path: path.split("public/")[1], // kalau windows harus disesuaikan
+              name: originalname,
+            },
+            { transaction: t }
+          );
+        }
       }
-    }
+
+      return inspection;
+    });
 
     res.status(201).json(inspection);
   } catch (error) {
