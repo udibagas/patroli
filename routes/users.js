@@ -6,7 +6,6 @@ const {
   remove,
 } = require("../controllers/users.controller");
 const { hasRole } = require("../middlewares/hasRole.middleware");
-const { isAdmin } = require("../middlewares/isAdmin.middleware");
 const router = require("express").Router();
 
 router

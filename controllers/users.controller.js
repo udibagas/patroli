@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Site } = require("../models");
 const NotFoundError = require("../errors/NotfoundError");
 
 exports.create = async (req, res, next) => {
@@ -11,8 +11,20 @@ exports.create = async (req, res, next) => {
 };
 
 exports.index = async (req, res, next) => {
+  const options = {
+    order: [["name", "asc"]],
+    include: Site,
+  };
+
+  // admin cuma bisa lihat user di site-nya aja
+  if (req.user.role === "admin") {
+    options.where = {
+      SiteId: req.user.SiteId,
+    };
+  }
+
   try {
-    const users = await User.findAll({ order: [["name", "asc"]] });
+    const users = await User.findAll(options);
     res.status(200).json(users);
   } catch (error) {
     next(error);
