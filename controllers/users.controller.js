@@ -42,11 +42,10 @@ exports.index = async (req, res, next) => {
 exports.update = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const user = await User.findByPk(id, {
-      attributes: { exclude: "password" },
-    });
+    const user = await User.findByPk(id);
     if (!user) throw new NotFoundError();
     await user.update(req.body);
+    await user.reload();
     res.status(200).json(user);
   } catch (error) {
     next(error);
