@@ -35,7 +35,18 @@ exports.index = (req, res) => {
 exports.destroy = (req, res) => {
   const { checkedNodes } = req.body;
 
-  checkedNodes.forEach((node) => {
+  for (const node of checkedNodes) {
+    // Ensure the path is within the uploads directory
+    if (!node.path.startsWith("uploads")) {
+      console.error(
+        `Attempt to delete file outside of uploads directory: ${node.path}`
+      );
+      return res.status(403).json({
+        error: "Forbidden",
+        message: "Cannot delete files outside of uploads directory",
+      });
+    }
+
     if (!node.isFile) {
       fs.rmdir(node.path, { recursive: true }, (err) => {
         if (err) console.error(err.message);
@@ -46,7 +57,7 @@ exports.destroy = (req, res) => {
         await InspectionImage.deleteByPath(node.path);
       });
     }
-  });
+  }
 
   res.status(200).json({ message: "Data telah dihapus" });
 };
