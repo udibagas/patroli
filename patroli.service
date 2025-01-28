@@ -5,7 +5,7 @@ Requires=network.target
 [Service]
 User=test
 WorkingDirectory=/home/test/apps/patroli
-ExecStart=/usr/bin/local/node --watch /home/test/apps/patroli/server.js
+ExecStart=/usr/local/bin/npm start
 Restart=always
 RestartSec=3
 
