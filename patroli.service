@@ -1,0 +1,13 @@
+[Unit]
+Description=Patroli App Service
+Requires=network.target
+
+[Service]
+User=test
+WorkingDirectory=/home/test/apps/patroli
+ExecStart=/usr/bin/local/node --watch /home/test/apps/patroli/server.js
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
