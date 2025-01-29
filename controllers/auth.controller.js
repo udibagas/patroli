@@ -4,7 +4,9 @@ const UnauthenticatedError = require("../errors/UnauthenticatedError");
 exports.register = async (req, res, next) => {
   try {
     const user = await User.create(req.body);
-    res.status(201).json(user);
+    const token = user.generateToken();
+    res.cookie("token", token, { httpOnly: true });
+    res.status(201).json({ user, token });
   } catch (error) {
     next(error);
   }
