@@ -68,13 +68,13 @@
 <script setup>
 import { form, errors, showForm, closeForm } from "~/store/form.store";
 import { user } from "~/store/auth.store";
-const { data: shifts, getAll, request } = useApi("/api/shifts");
+const { data: shifts, getAll, request, graphql } = useApi("/api/shifts");
 const sites = ref([]);
 
 onMounted(() => {
   getAll();
-  request("/api/sites").then((data) => {
-    sites.value = data;
+  graphql({ sites: "id name" }).then((data) => {
+    sites.value = data.sites;
   });
 });
 

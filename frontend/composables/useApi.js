@@ -24,6 +24,21 @@ export default (url) => {
     },
   });
 
+  async function graphql(queries) {
+    const res = await request("/graphql", {
+      method: "POST",
+      body: {
+        query: `{
+          ${Object.entries(queries)
+            .map(([key, value]) => `${key} {${value}}`)
+            .join("\n")}
+        }`,
+      },
+    });
+
+    return res.data;
+  }
+
   function getAll(params = {}) {
     loading.value = true;
     request(url, { params })
@@ -95,6 +110,7 @@ export default (url) => {
     create,
     update,
     remove,
+    graphql,
     request,
     loading,
     data,

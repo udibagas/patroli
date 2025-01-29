@@ -3,6 +3,7 @@ const { buildSchema } = require("graphql");
 exports.schema = buildSchema(`
   type Query {
     users: [User]
+    sites: [Site]
     areas: [Area]
     stations: [Station]
     inspectionTemplates: [InspectionTemplate]
@@ -13,6 +14,11 @@ exports.schema = buildSchema(`
     name: String!
     email: String
     role: String
+  }
+
+  type Site {
+    id: Int!
+    name: String!
   }
 
   type Area {
