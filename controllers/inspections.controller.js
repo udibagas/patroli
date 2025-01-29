@@ -33,20 +33,22 @@ exports.create = async (req, res, next) => {
         { transaction: t }
       );
 
-      const images = req.files["images[]"] || [];
+      if (req.files) {
+        const images = req.files["images[]"] || [];
 
-      if (images.length > 0) {
-        for (const file of images) {
-          const { path, originalname } = file;
-          await InspectionImage.create(
-            {
-              SiteId,
-              path,
-              InspectionId: inspection.id,
-              name: originalname,
-            },
-            { transaction: t }
-          );
+        if (images.length > 0) {
+          for (const file of images) {
+            const { path, originalname } = file;
+            await InspectionImage.create(
+              {
+                SiteId,
+                path,
+                InspectionId: inspection.id,
+                name: originalname,
+              },
+              { transaction: t }
+            );
+          }
         }
       }
 
