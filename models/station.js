@@ -10,11 +10,7 @@ module.exports = (sequelize, DataTypes) => {
 
     static findByName(name, SiteId) {
       const options = {
-        where: {
-          name: {
-            [Op.iLike]: `${name}%`,
-          },
-        },
+        where: { name },
       };
 
       if (SiteId) {
