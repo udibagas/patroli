@@ -28,6 +28,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("uploads"));
+app.use("/apk", express.static("apk"));
 
 app.all("/graphql", auth, createHandler({ schema, rootValue }));
 app.get("/gql", (_req, res) => {
