@@ -30,7 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("uploads"));
 app.use("/apk", express.static("apk"));
 
-app.all("/graphql", auth, createHandler({ schema, rootValue }));
+app.all("/graphql", createHandler({ schema, rootValue }));
 app.get("/gql", (_req, res) => {
   res.type("html");
   res.end(ruruHTML({ endpoint: "/graphql" }));
