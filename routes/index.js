@@ -7,6 +7,9 @@ const { index: getSites } = require("../controllers/sites.controller");
 const { auth } = require("../middlewares/auth.middleware");
 const { hasRole } = require("../middlewares/hasRole.middleware");
 
+// check connection
+router.get("/ping", (req, res) => res.send("pong!"));
+
 router.use(require("./auth"));
 router.use(auth);
 
