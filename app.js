@@ -8,8 +8,6 @@ const { ruruHTML } = require("ruru/server");
 const { errorHandler } = require("./middlewares/errorHandler.middleware");
 const { schema } = require("./graphql/schema");
 const { resolver: rootValue } = require("./graphql/resolver");
-const { auth } = require("./middlewares/auth.middleware");
-const { generatePdf } = require("./controllers/inspections.controller");
 const app = express();
 
 const { ALLOWED_ORIGIN = "" } = process.env;
@@ -36,7 +34,6 @@ app.get("/gql", (_req, res) => {
   res.end(ruruHTML({ endpoint: "/graphql" }));
 });
 
-app.get("/api/inspections/generatePdf", generatePdf);
 app.use("/api", require("./routes"));
 app.use(express.static("./frontend/.output/public"));
 
