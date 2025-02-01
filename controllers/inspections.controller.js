@@ -192,26 +192,26 @@ exports.generatePdf = async (req, res, next) => {
       shiftEnd,
     };
 
-    //  res.render("inspection", payload);
+    res.render("inspection", payload);
 
-    res.render("inspection", payload, (err, html) => {
-      if (err) throw err;
+    // res.render("inspection", payload, (err, html) => {
+    //   if (err) throw err;
 
-      res.pdfFromHTML({
-        filename: `laporan-patroli-${reportDate}-${shift.name}.pdf`,
-        htmlContent: html,
-        options: {
-          format: "A4",
-          orientation: "portrait",
-          border: {
-            top: "20mm",
-            right: "12mm",
-            bottom: "20mm",
-            left: "12mm",
-          },
-        },
-      });
-    });
+    //   res.pdfFromHTML({
+    //     filename: `laporan-patroli-${reportDate}-${shift.name}.pdf`,
+    //     htmlContent: html,
+    //     options: {
+    //       format: "A4",
+    //       orientation: "portrait",
+    //       border: {
+    //         top: "20mm",
+    //         right: "12mm",
+    //         bottom: "20mm",
+    //         left: "12mm",
+    //       },
+    //     },
+    //   });
+    // });
   } catch (error) {
     next(error);
   }
