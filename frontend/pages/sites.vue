@@ -1,14 +1,14 @@
 <template>
   <el-page-header @back="goBack" content="Sites">
     <template #extra>
-      <el-button
+      <!-- <el-button
         size="small"
         :icon="ElIconPlus"
         type="primary"
         @click="openForm()"
       >
         TAMBAH SITE
-      </el-button>
+      </el-button> -->
     </template>
   </el-page-header>
 
@@ -43,12 +43,12 @@
               >
                 Edit
               </el-dropdown-item>
-              <el-dropdown-item
+              <!-- <el-dropdown-item
                 :icon="ElIconDelete"
                 @click.native.prevent="remove(row.id)"
               >
                 Delete
-              </el-dropdown-item>
+              </el-dropdown-item> -->
             </el-dropdown-menu>
           </template>
         </el-dropdown>
