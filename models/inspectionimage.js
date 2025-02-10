@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: { msg: "Inspeksi harus diisi" },
-          notNull: { msg: "Inspeksi harus diisi" },
+          notEmpty: { msg: "Inspeksi harus diisi" },
         },
       },
       SiteId: {
@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: { msg: "Site harus diisi" },
-          notNull: { msg: "Site harus diisi" },
+          notEmpty: { msg: "Site harus diisi" },
         },
       },
     },

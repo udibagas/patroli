@@ -1,5 +1,5 @@
 "use strict";
-const { hashSync, genSaltSync, compareSync } = require("bcrypt");
+const { hashSync, compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
 const { Model } = require("sequelize");
 

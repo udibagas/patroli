@@ -13,8 +13,24 @@ module.exports = (sequelize, DataTypes) => {
 
   Site.init(
     {
-      code: DataTypes.STRING,
-      name: DataTypes.STRING,
+      code: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: { msg: "Kode sudah dipakai" },
+        validate: {
+          notNull: { msg: "Kode harus diisi" },
+          notEmpty: { msg: "Kode harus diisi" },
+        },
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: { msg: "Nama sudah dipakai" },
+        validate: {
+          notNull: { msg: "Nama harus diisi" },
+          notEmpty: { msg: "Nama harus diisi" },
+        },
+      },
     },
     {
       sequelize,
