@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node --watch server.js",
-    "build": "cd frontend && npm install && npm run build && cd ..",
+    "build": "cd frontend && npm install && npm run generate && cd ..",
     "migrate": "npx sequelize db:migrate"
   },
   "keywords": [],
