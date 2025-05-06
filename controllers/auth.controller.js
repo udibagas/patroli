@@ -27,10 +27,7 @@ exports.login = async (req, res, next) => {
       throw new UnauthenticatedError("Username atau password salah");
     }
     const token = user.generateToken();
-    res
-      .status(200)
-      .cookie("token", token, { httpOnly: true })
-      .json({ token, user });
+    res.status(200).cookie("token", token).json({ token, user });
   } catch (error) {
     next(error);
   }
