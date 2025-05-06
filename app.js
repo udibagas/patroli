@@ -37,6 +37,10 @@ app.get("/gql", (_req, res) => {
 app.use("/api", require("./routes"));
 app.use(express.static("./frontend/.output/public"));
 
+app.get("*", (req, res) => {
+  res.sendFile("index.html", { root: "./frontend/.output/public" });
+});
+
 app.use(errorHandler);
 
 module.exports = app;
