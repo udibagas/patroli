@@ -7,13 +7,13 @@ module.exports = {
       {
         name: "SHIFT 1",
         start: "06:00",
-        end: "14:00",
+        end: "13:59",
         nextDay: false,
       },
       {
         name: "SHIFT 2",
         start: "14:00",
-        end: "22:00",
+        end: "21:59",
         nextDay: false,
       },
       {
@@ -25,7 +25,7 @@ module.exports = {
       {
         name: "SHIFT 3",
         start: "00:00",
-        end: "06:00",
+        end: "05:59",
         nextDay: true,
       },
     ]);
