@@ -57,7 +57,7 @@
       </template>
     </el-table-column>
 
-    <el-table-column label="Petugas" prop="User.name" width="120px" />
+    <el-table-column label="Petugas" prop="User.name" width="150px" />
 
     <el-table-column label="Station" prop="Station.name" />
   </el-table>
