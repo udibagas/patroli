@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       const data = await Shift.findOne({
         attributes: ["start"],
         where: { name: this.name },
-        order: [["start", "ASC"]],
+        order: [["id", "ASC"]],
       });
 
       if (!data) return "-";
@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
       const data = await Shift.findOne({
         attributes: ["end"],
         where: { name: this.name },
-        order: [["end", "DESC"]],
+        order: [["id", "DESC"]],
       });
 
       if (!data) return "-";
