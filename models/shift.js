@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
         .replace(".", ":");
 
       const records = await sequelize.query(
-        `SELECT "name" FROM "Shifts" WHERE ? BETWEEN "start" AND "end"`,
+        `SELECT "name", "nextDay" FROM "Shifts" WHERE ? BETWEEN "start" AND "end"`,
         {
           replacements: [time],
           type: QueryTypes.SELECT,
